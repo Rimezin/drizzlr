@@ -122,7 +122,7 @@ export default function App() {
     let url = "";
     if (validateZip(input)) {
       console.log(`GETLOCATION | Input: ${input}`);
-      url = `http://api.openweathermap.org/geo/1.0/zip?zip=${input}&limit=1&appid=${process.env.REACT_APP_API_KEY}`;
+      url = `https://api.openweathermap.org/geo/1.0/zip?zip=${input}&limit=1&appid=${process.env.REACT_APP_API_KEY}`;
     } else {
       alert("Zip Codes Only!");
       console.log(`GETLOCATION | ERROR: Input was not a zip code`);
