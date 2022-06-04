@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/clouds.io/static/css/main.6aad5f48.css",
+    "main.js": "/clouds.io/static/js/main.acea70f2.js",
+    "static/js/787.6ff6e298.chunk.js": "/clouds.io/static/js/787.6ff6e298.chunk.js",
+    "service-worker.js": "/clouds.io/service-worker.js",
+    "index.html": "/clouds.io/index.html",
+    "main.6aad5f48.css.map": "/clouds.io/static/css/main.6aad5f48.css.map",
+    "main.acea70f2.js.map": "/clouds.io/static/js/main.acea70f2.js.map",
+    "787.6ff6e298.chunk.js.map": "/clouds.io/static/js/787.6ff6e298.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6aad5f48.css",
+    "static/js/main.acea70f2.js"
+  ]
+}
