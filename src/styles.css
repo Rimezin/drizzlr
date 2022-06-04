@@ -1,0 +1,99 @@
+/* * {
+  transition: 0.2s;
+} */
+
+.card-header {
+  display: flex !important;
+  border-bottom: 1px solid #d3d8de;
+  margin: -20px -20px 10px -20px;
+  padding: 5px 10px 5px 10px;
+  font-size: 1.1rem;
+  align-items: center;
+}
+
+.link-hover:hover {
+  background-color: #eee;
+  transition: all 0.75s;
+  color: #3e3e3e;
+}
+
+.outline {
+  background-color: none;
+  border: 0.2rem;
+}
+
+.no-select {
+  user-select: none;
+}
+
+.boxshadow {
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 0px 0.2rem 0.3rem 0.1rem rgba(0, 0, 0, 0.1);
+}
+
+.bg-blur {
+  backdrop-filter: blur(1px) opacity(0.7);
+}
+
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main-temp {
+  font-size: 3rem;
+  font-family: "Quicksand";
+}
+
+.main-icon {
+  width: 5rem;
+}
+
+.main-condition {
+  display: flex;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-family: "Quicksand";
+  font-weight: 600;
+  color: #4cbcec;
+}
+
+.main-alt-temps {
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.main-refresh {
+  align-self: center;
+  margin-left: auto !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
+}
+
+.menubar {
+  margin: -8px -8px 0px -8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.menu-items {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+}
+
+.logo {
+  font-size: larger;
+  font-family: "Quicksand";
+  font-weight: 700;
+  margin-right: auto;
+}
+
+/* Leaflet */
+#map {
+  height: 180px;
+}
