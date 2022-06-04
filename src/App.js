@@ -372,7 +372,7 @@ export default function App() {
         )}
         {page === "Radar" && <Radar />}
       </main>
-      <footer>v0.022</footer>
+      <footer>v0.0.3</footer>
     </ThemeProvider>
   );
 }

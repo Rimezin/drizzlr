@@ -1,7 +1,7 @@
 {
   "name": "drizzlr",
   "version": "0.0.22",
-  "homepage": "https://drizzlr.app/",
+  "homepage": "https://rimezin.github.io/drizzlr/",
   "private": true,
   "dependencies": {
     "@joshdschneider/formation": "^1.0.2",
