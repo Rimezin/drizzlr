@@ -1,7 +1,7 @@
 {
-  "name": "clouds.io",
-  "version": "0.1.0",
-  "homepage": "https://rimezin.github.io/clouds.io",
+  "name": "drizzlr",
+  "version": "0.0.22",
+  "homepage": "https://drizzlr.app/",
   "private": true,
   "dependencies": {
     "@joshdschneider/formation": "^1.0.2",
