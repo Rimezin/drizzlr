@@ -333,7 +333,7 @@ export default function App() {
         onClose={handleDrawer}
         position="right"
         header={{ text: "Menu", icon: "clean" }}
-        style={{ maxWidth: "20rem" }}
+        style={{ maxWidth: "200px" }}
       >
         <DrawerContent
           searching={searching}

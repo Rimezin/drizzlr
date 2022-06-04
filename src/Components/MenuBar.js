@@ -33,41 +33,6 @@ export default function MenuBar(props) {
           <Icon icon="menu" />
         </Button>
       </div>
-      {/* <Container fluid>
-        <Navbar.Brand href="#">clouds.io</Navbar.Brand>
-        <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
-        <Navbar.Offcanvas
-          id={`offcanvasNavbar-expand-md`}
-          aria-labelledby={`offcanvasNavbarLabel-expand-md`}
-          placement="end"
-        >
-          <Offcanvas.Header closeButton>
-            <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`}>
-              Main Menu
-            </Offcanvas.Title>
-          </Offcanvas.Header>
-          <Offcanvas.Body>
-            <Nav className="justify-content-end flex-grow-1 pe-3">
-              <Nav.Link
-                eventKey="Home"
-                onClick={handlePage}
-                className="link-hover"
-                active={page === "Home"}
-              >
-                Home
-              </Nav.Link>
-              <Nav.Link
-                eventKey="Radar"
-                onClick={handlePage}
-                className="link-hover"
-                active={page === "Radar"}
-              >
-                Radar
-              </Nav.Link>
-            </Nav>
-          </Offcanvas.Body>
-        </Navbar.Offcanvas>
-      </Container> */}
     </>
   );
 }
