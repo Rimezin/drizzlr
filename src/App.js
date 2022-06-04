@@ -372,7 +372,7 @@ export default function App() {
         )}
         {page === "Radar" && <Radar />}
       </main>
-      <footer>{/* <div id="map"></div> */}</footer>
+      <footer>v0.022</footer>
     </ThemeProvider>
   );
 }
