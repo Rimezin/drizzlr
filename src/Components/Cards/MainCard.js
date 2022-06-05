@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, Button, Tooltip, Icon } from "@joshdschneider/formation";
-import convertTime from "../Hooks/convertTime";
+import convertTime from "../../Hooks/convertTime";
 
 export default function MainCard(props) {
-  const { location, weather, units, handleRefresh } = props;
+  const { location, weather, units, handleRefresh, theme } = props;
 
   const tooltip = {
     feel: <span>Feels Like</span>,
@@ -19,8 +19,11 @@ export default function MainCard(props) {
   };
 
   return (
-    <Card style={{ width: "18rem" }} interactive={true}>
-      <div className="card-header">
+    <Card style={{ width: "18rem", maxWidth: "76%" }} interactive={true}>
+      <div
+        className="card-header"
+        style={{ borderColor: theme === "light" ? "#d3d8de" : "#383e47" }}
+      >
         <span>Current Conditions</span>
         <Button
           variant="light"
@@ -34,7 +37,9 @@ export default function MainCard(props) {
         </Button>
       </div>
       <div>
-        <h4>{location.name}</h4>
+        <h4>
+          {location.name}, {location.country}
+        </h4>
         <p>
           <div className="main">
             <span className="main-temp">
@@ -43,6 +48,7 @@ export default function MainCard(props) {
             <img
               src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
               className="main-icon"
+              alt="weather icon"
             />
           </div>
           <span className="main-condition">

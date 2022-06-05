@@ -2,16 +2,26 @@ import React from "react";
 import { Icon, Switch } from "@joshdschneider/formation";
 
 export default function ThemeToggle(props) {
-  const { theme, toggleTheme } = props;
+  const { theme, toggleTheme, style } = props;
+
+  const [componentStyle, setComponentStyle] = React.useState({
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  });
+
+  // Add custom styling if it exists //
+  React.useEffect(() => {
+    if (style !== undefined) {
+      setComponentStyle((defaultStyle) => ({
+        ...defaultStyle,
+        ...style,
+      }));
+    }
+  }, [style]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
+    <div style={componentStyle}>
       <Icon
         icon="flash"
         intent="default"

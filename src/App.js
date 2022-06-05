@@ -3,9 +3,11 @@ import axios from "axios";
 
 // Hooks //
 import convertTemp from "./Hooks/convertTemp";
+import getWindDirection from "./Hooks/getWindDirection";
+import getWindSpeed from "./Hooks/getWindSpeed";
 
 // Components //
-import MenuBar from "./Components/MenuBar";
+import Header from "./Components/Header";
 import {
   toast,
   Toast,
@@ -20,13 +22,14 @@ import Home from "./Pages/Home";
 import Radar from "./Pages/Radar";
 import useStickyState from "./Hooks/useStickyState";
 import DrawerContent from "./Pages/DrawerContent";
+import Footer from "./Components/Footer";
 
 ////////////////////////////////
 /////////// MAIN APP ///////////
 ////////////////////////////////
 export default function App() {
   //// THEME PROVIDER ////
-  const [theme, setTheme] = useStickyState("light", "theme");
+  const [theme, setTheme] = useStickyState("light", "drizzlr_theme");
 
   function toggleTheme() {
     if (theme === "light") {
@@ -103,7 +106,7 @@ export default function App() {
       lon: -75.8306,
       country: "US",
     },
-    "clouds-io-location"
+    "drizzlr-location"
   );
 
   // State for loading when search button is clicked //
@@ -116,7 +119,6 @@ export default function App() {
   }
 
   function getLocation(input) {
-    //{"zip":"18255","name":"Weatherly","lat":40.9411,"lon":-75.8306,"country":"US"}
     handleDrawer();
     setSearching(true);
     let url = "";
@@ -187,8 +189,10 @@ export default function App() {
     },
     visibility: 10000,
     wind: {
-      speed: 1.5,
-      deg: 350,
+      speed: 1.5, // default meters
+      deg: 350, // N
+      direction: "N",
+      units: "m/s",
     },
     clouds: {
       all: 1,
@@ -208,7 +212,8 @@ export default function App() {
     cod: 200,
   });
 
-  const [units, setUnits] = useStickyState("F", "clouds");
+  const [units, setUnits] = useStickyState("F", "drizzlr_temp_unit");
+  const [windUnits, setWindUnits] = useStickyState("mph", "drizzlr_wind_speed");
 
   function handleUnits(e) {
     e.preventDefault();
@@ -230,6 +235,21 @@ export default function App() {
     }));
   }
 
+  function handleWindUnits(e) {
+    e.preventDefault();
+    const prevWindUnits = windUnits;
+    setWindUnits(e.target.value);
+    setWeather((weather) => ({
+      ...weather,
+      wind: {
+        ...weather.wind,
+        units: e.target.value,
+        speed: getWindSpeed(prevWindUnits, weather.wind.speed, e.target.value),
+      },
+    }));
+  }
+
+  // WEATHER //
   function getWeather() {
     console.log("WEATHER | Axios\n>> Attempting Get");
     axios
@@ -258,6 +278,12 @@ export default function App() {
             temp_min: convertTemp("K", result.main.temp_min, units),
             feels_like: convertTemp("K", result.main.feels_like, units),
           },
+          wind: {
+            ...result.wind,
+            direction: getWindDirection(result.wind.deg),
+            units: windUnits,
+            speed: getWindSpeed("m/s", result.wind.speed, windUnits),
+          },
         }));
         console.log(">> Success:");
         console.log(res.data);
@@ -275,8 +301,8 @@ export default function App() {
     if (difference < 600000) {
       const timeLeft = Math.round(100 * ((600000 - difference) / 60000)) / 100;
       openModal(
-        `Can't refresh this quickly... The server only gets new weather data every 10 minutes. Please wait an additional ${timeLeft} minutes.`,
-        "Hold up!",
+        `Drizzlr can't refresh this quickly... The server we pull weather data from only gets updated every 10 minutes. Please wait an additional ${timeLeft} minutes.`,
+        "Slow your roll!",
         "time"
       );
       console.log("REFRESH_WEATHER | Aborted, too soon.");
@@ -333,7 +359,8 @@ export default function App() {
         onClose={handleDrawer}
         position="right"
         header={{ text: "Menu", icon: "clean" }}
-        style={{ maxWidth: "200px" }}
+        style={{ maxWidth: "300px", width: "80%" }}
+        className="menu-drawer"
       >
         <DrawerContent
           searching={searching}
@@ -342,18 +369,16 @@ export default function App() {
           page={page}
           handlePage={handlePage}
           units={units}
+          windUnits={windUnits}
           handleUnits={handleUnits}
+          handleWindUnits={handleWindUnits}
+          theme={theme}
+          toggleTheme={toggleTheme}
         />
       </Drawer>
 
       <header>
-        <MenuBar
-          page={page}
-          handlePage={handlePage}
-          location={location}
-          getLocation={getLocation}
-          setUnits={setUnits}
-          searching={searching}
+        <Header
           theme={theme}
           toggleTheme={toggleTheme}
           handleDrawer={handleDrawer}
@@ -368,11 +393,18 @@ export default function App() {
             weather={weather}
             units={units}
             openModal={openModal}
+            theme={theme}
           />
         )}
         {page === "Radar" && <Radar />}
       </main>
-      <footer>v0.0.3</footer>
+      <footer>
+        <Footer
+          theme={theme}
+          toggleTheme={toggleTheme}
+          handleDrawer={handleDrawer}
+        />
+      </footer>
     </ThemeProvider>
   );
 }

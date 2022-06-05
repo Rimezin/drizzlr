@@ -1,6 +1,6 @@
 {
   "name": "drizzlr",
-  "version": "0.0.22",
+  "version": "0.0.4",
   "homepage": "https://rimezin.github.io/",
   "private": true,
   "dependencies": {

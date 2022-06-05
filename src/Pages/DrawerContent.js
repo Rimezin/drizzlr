@@ -1,7 +1,9 @@
-import { Button, Icon, Icons } from "@joshdschneider/formation";
+import { Button, Icon } from "@joshdschneider/formation";
 import React from "react";
 import Search from "../Components/Search";
+import ThemeToggle from "../Components/ThemeToggle";
 import Units from "../Components/Units";
+import UnitsWind from "../Components/UnitsWind";
 
 export default function DrawerContent(props) {
   const {
@@ -11,7 +13,11 @@ export default function DrawerContent(props) {
     location,
     getLocation,
     units,
+    windUnits,
+    handleWindUnits,
     handleUnits,
+    theme,
+    toggleTheme,
   } = props;
 
   const selected = <Icon icon="arrow-left" intent="default" size="small" />;
@@ -55,13 +61,24 @@ export default function DrawerContent(props) {
           Radar
         </Button>
       </div>
+      <br />
       <p>Location:</p>
       <Search
         searching={searching}
         location={location}
         getLocation={getLocation}
       />
+      <br />
+      <p>Temperature Units:</p>
       <Units units={units} handleUnits={handleUnits} />
+      <br />
+      <br />
+      <p>Wind Speed Units:</p>
+      <UnitsWind windUnits={windUnits} handleWindUnits={handleWindUnits} />
+      <br />
+      <br />
+      <p>Theme:</p>
+      <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
     </div>
   );
 }
