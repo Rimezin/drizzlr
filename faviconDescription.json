@@ -1,5 +1,5 @@
 {
-	"masterPicture": "public/drizzler260T.png",
+	"masterPicture": "public/drizzler512.png",
 	"iconsPath": "/",
 	"design": {
 		"ios": {
@@ -42,7 +42,7 @@
 			"themeColor": "#1c2025",
 			"manifest": {
 				"name": "Drizzlr",
-				"startUrl": "http://drizzlr.app/",
+				"startUrl": "https://drizzlr.app/",
 				"display": "standalone",
 				"orientation": "notSet",
 				"onConflict": "override",

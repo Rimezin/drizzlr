@@ -27,7 +27,7 @@ export default function Footer(props) {
             style={{ color: theme === "light" ? "lightgray" : "dimgray" }}
             className="text-hidden"
           >
-            .0.5
+            .0.51
           </span>
         </a>
       </div>
