@@ -1,6 +1,11 @@
 // Convert Temp based on units //
 
 export default function convertTemp(prevUnit, prevTemp, units) {
+  if (prevUnit === null || units === null) {
+    console.log(">> convert temp was provided null units, so aborted.");
+    return prevTemp;
+  }
+
   let newTemp;
   if (prevUnit === "K") {
     switch (units) {
@@ -39,12 +44,14 @@ export default function convertTemp(prevUnit, prevTemp, units) {
         break;
     }
   } else {
-    console.log("CONVERTTEMP | FAILED! Units was not recognized...");
+    console.log(
+      ">> Temperature Conversion FAILED! Units was not recognized..."
+    );
     return prevTemp;
   }
   newTemp = Math.round(newTemp);
   console.log(
-    `CONVERTTEMP | Converting ${prevTemp}${prevUnit} to ${newTemp}${units}`
+    `>> Temperature converting ${prevTemp}${prevUnit} to ${newTemp}${units}...`
   );
   return newTemp;
 }

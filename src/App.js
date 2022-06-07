@@ -1,13 +1,14 @@
 import React from "react";
 import axios from "axios";
+// import L from "leaflet";
 
 // Hooks //
-import convertTemp from "./Hooks/convertTemp";
-import getWindDirection from "./Hooks/getWindDirection";
-import getWindSpeed from "./Hooks/getWindSpeed";
+import useStickyState from "./Hooks/useStickyState";
+import convertWeatherUnits from "./Hooks/convertWeatherUnits";
 
 // Components //
 import Header from "./Components/Header";
+import Footer from "./Components/Footer";
 import {
   toast,
   Toast,
@@ -15,14 +16,11 @@ import {
   Modal,
   ThemeProvider,
 } from "@joshdschneider/formation";
-// import L from "leaflet";
 
 // Pages //
 import Home from "./Pages/Home";
 import Radar from "./Pages/Radar";
-import useStickyState from "./Hooks/useStickyState";
 import DrawerContent from "./Pages/DrawerContent";
-import Footer from "./Components/Footer";
 
 ////////////////////////////////
 /////////// MAIN APP ///////////
@@ -166,87 +164,155 @@ export default function App() {
 
   ///// WEATHER /////
   const [weather, setWeather] = React.useState({
-    coord: {
-      lon: -122.08,
-      lat: 37.39,
+    lat: 42.2933,
+    lon: -121.8169,
+    timezone: "America/Los_Angeles",
+    timezone_offset: -25200,
+    current: {
+      dt: 1654453001,
+      sunrise: 1654432306,
+      sunset: 1654486808,
+      temp: 290,
+      feels_like: 289.31,
+      pressure: 1011,
+      humidity: 60,
+      dew_point: 282.2,
+      uvi: 3.82,
+      clouds: 0,
+      visibility: 10000,
+      wind_speed: 4.12,
+      wind_deg: 230,
+      weather: [
+        {
+          id: 800,
+          main: "Clear",
+          description: "clear sky",
+          icon: "01d",
+        },
+      ],
     },
-    weather: [
+    hourly: [
       {
-        id: 800,
-        main: "Clear",
-        description: "clear sky",
-        icon: "01d",
+        dt: 1654621200,
+        temp: 287.61,
+        feels_like: 286.42,
+        pressure: 1016,
+        humidity: 50,
+        dew_point: 276.65,
+        uvi: 4.39,
+        clouds: 92,
+        visibility: 10000,
+        wind_speed: 2.05,
+        wind_deg: 143,
+        wind_gust: 2.75,
+        weather: [
+          {
+            id: 804,
+            main: "Clouds",
+            description: "overcast clouds",
+            icon: "04d",
+          },
+        ],
+        pop: 0,
       },
     ],
-    base: "stations",
-    main: {
-      temp: 282.55,
-      feels_like: 281.86,
-      temp_min: 280.37,
-      temp_max: 284.26,
-      pressure: 1023,
-      humidity: 100,
-    },
-    visibility: 10000,
-    wind: {
-      speed: 1.5, // default meters
-      deg: 350, // N
-      direction: "N",
-      units: "m/s",
-    },
-    clouds: {
-      all: 1,
-    },
-    dt: 1560350645,
-    sys: {
-      type: 1,
-      id: 5122,
-      message: 0.0139,
-      country: "US",
-      sunrise: 1560343627,
-      sunset: 1560396563,
-    },
-    timezone: -25200,
-    id: 420006353,
-    name: "Mountain View",
-    cod: 200,
+    daily: [
+      {
+        dt: 1654459200,
+        sunrise: 1654432306,
+        sunset: 1654486808,
+        moonrise: 1654451460,
+        moonset: 1654416060,
+        moon_phase: 0.19,
+        temp: {
+          day: 290.33,
+          min: 278.88,
+          max: 290.33,
+          night: 278.88,
+          eve: 286.58,
+          morn: 283.35,
+        },
+        feels_like: {
+          day: 289.51,
+          night: 277.47,
+          eve: 285.57,
+          morn: 282.67,
+        },
+        pressure: 1009,
+        humidity: 54,
+        dew_point: 280.95,
+        wind_speed: 7.38,
+        wind_deg: 273,
+        wind_gust: 10.99,
+        weather: [
+          {
+            id: 500,
+            main: "Rain",
+            description: "light rain",
+            icon: "10d",
+          },
+        ],
+        clouds: 9,
+        pop: 1,
+        rain: 2.67,
+        uvi: 8.22,
+      },
+    ],
   });
 
-  const [units, setUnits] = useStickyState("F", "drizzlr_temp_unit");
+  const [tempUnits, setTempUnits] = useStickyState("F", "drizzlr_temp_unit");
   const [windUnits, setWindUnits] = useStickyState("mph", "drizzlr_wind_speed");
+  const [timeUnits, setTimeUnits] = useStickyState("12hr", "drizzlr_time_unit");
 
-  function handleUnits(e) {
+  function handleTempUnits(e) {
     e.preventDefault();
-    const prevUnits = units;
-    setUnits(e.target.value);
-    setWeather((weather) => ({
-      ...weather,
-      units: units,
-      main: {
-        temp: convertTemp(prevUnits, weather.main.temp, e.target.value),
-        temp_max: convertTemp(prevUnits, weather.main.temp_max, e.target.value),
-        temp_min: convertTemp(prevUnits, weather.main.temp_min, e.target.value),
-        feels_like: convertTemp(
-          prevUnits,
-          weather.main.feels_like,
-          e.target.value
-        ),
-      },
-    }));
+    const prevTempUnits = tempUnits;
+    setTempUnits(e.target.value);
+    setWeather(
+      convertWeatherUnits(
+        weather,
+        prevTempUnits,
+        e.target.value,
+        null,
+        windUnits,
+        timeUnits,
+        null
+      )
+    );
   }
 
   function handleWindUnits(e) {
     e.preventDefault();
     const prevWindUnits = windUnits;
     setWindUnits(e.target.value);
-    setWeather((weather) => ({
-      ...weather,
-      wind: {
-        ...weather.wind,
-        units: e.target.value,
-        speed: getWindSpeed(prevWindUnits, weather.wind.speed, e.target.value),
-      },
-    }));
+    setWeather(
+      convertWeatherUnits(
+        weather,
+        null,
+        tempUnits,
+        prevWindUnits,
+        e.target.value,
+        timeUnits,
+        null
+      )
+    );
+  }
+
+  function handleTimeUnits(e) {
+    e.preventDefault();
+    const prevTimeUnits = timeUnits;
+    setTimeUnits(e.target.value);
+    setWeather(
+      convertWeatherUnits(
+        weather,
+        null,
+        null,
+        null,
+        null,
+        prevTimeUnits,
+        e.target.value
+      )
+    );
   }
 
   // WEATHER //
@@ -254,7 +320,8 @@ export default function App() {
     console.log("WEATHER | Axios\n>> Attempting Get");
     axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=${process.env.REACT_APP_API_KEY}`
+        // `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=${process.env.REACT_APP_API_KEY}`
+        `https://api.openweathermap.org/data/2.5/onecall?lat=${location.lat}&lon=${location.lon}&exclude=minutely&appid=${process.env.REACT_APP_API_KEY}`
       )
       .catch((error) => {
         console.log(`>> Error: ${error}`);
@@ -268,35 +335,36 @@ export default function App() {
         );
       })
       .then((res) => {
-        setWeather(res.data);
-        setWeather((result) => ({
-          ...result,
-          units: units,
-          main: {
-            temp: convertTemp("K", result.main.temp, units),
-            temp_max: convertTemp("K", result.main.temp_max, units),
-            temp_min: convertTemp("K", result.main.temp_min, units),
-            feels_like: convertTemp("K", result.main.feels_like, units),
-          },
-          wind: {
-            ...result.wind,
-            direction: getWindDirection(result.wind.deg),
-            units: windUnits,
-            speed: getWindSpeed("m/s", result.wind.speed, windUnits),
-          },
-        }));
-        console.log(">> Success:");
+        console.log(">> Success: Setting object to weather state...");
         console.log(res.data);
-        console.log(">> Setting object to weather state.");
+        setWeather(res.data);
+
+        setWeather(
+          convertWeatherUnits(
+            res.data,
+            "K",
+            tempUnits,
+            "m/s",
+            windUnits,
+            "24hr",
+            timeUnits
+          )
+        );
       });
   }
 
   // Refresh weather //
   function handleRefresh(e) {
     e.preventDefault();
+    console.log("REFRESH WEATHER ||");
     const current = new Date();
-    const existing = new Date(weather.dt * 1000);
+    console.log(`>> Current time: ${current.toString()}`);
+
+    const existing = new Date(weather.current.dt * 1000);
+    console.log(`>> Existing time: ${existing.toString()}`);
+
     const difference = current - existing;
+    console.log(`>> Difference: ${difference.toString()}`);
 
     if (difference < 600000) {
       const timeLeft = Math.round(100 * ((600000 - difference) / 60000)) / 100;
@@ -305,9 +373,9 @@ export default function App() {
         "Slow your roll!",
         "time"
       );
-      console.log("REFRESH_WEATHER | Aborted, too soon.");
+      console.log(">> Aborted, too soon.");
     } else {
-      console.log("REFRESH_WEATHER | Refreshing...");
+      console.log(">> Refreshing...");
       getWeather();
     }
   }
@@ -348,6 +416,7 @@ export default function App() {
         isOpen={modal.isOpen}
         onClose={closeModal}
         header={{ text: modal.title, icon: modal.icon }}
+        className="drizzlr-modal"
       >
         <div>{modal.content}</div>
       </Modal>
@@ -368,10 +437,12 @@ export default function App() {
           getLocation={getLocation}
           page={page}
           handlePage={handlePage}
-          units={units}
+          tempUnits={tempUnits}
           windUnits={windUnits}
-          handleUnits={handleUnits}
+          timeUnits={timeUnits}
+          handleTempUnits={handleTempUnits}
           handleWindUnits={handleWindUnits}
+          handleTimeUnits={handleTimeUnits}
           theme={theme}
           toggleTheme={toggleTheme}
         />
@@ -391,7 +462,6 @@ export default function App() {
             handleRefresh={handleRefresh}
             location={location}
             weather={weather}
-            units={units}
             openModal={openModal}
             theme={theme}
           />

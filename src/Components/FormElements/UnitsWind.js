@@ -11,6 +11,8 @@ export default function UnitsWind(props) {
   ];
 
   return (
-    <Select options={options} value={windUnits} onChange={handleWindUnits} />
+    <div style={{ marginLeft: "auto" }}>
+      <Select options={options} value={windUnits} onChange={handleWindUnits} />
+    </div>
   );
 }

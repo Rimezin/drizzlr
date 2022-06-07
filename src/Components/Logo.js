@@ -9,7 +9,7 @@ export default function Logo(props) {
         icon="rain"
         size="large"
         className="logo-icon"
-        style={{ height: "24px", width: "24px" }}
+        style={{ height: "32px", width: "32px" }}
       />
       <div className="logo">
         Drizzlr

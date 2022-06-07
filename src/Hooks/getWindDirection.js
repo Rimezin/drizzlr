@@ -1,7 +1,4 @@
 export default function getWindDirection(deg) {
-  console.log(
-    `GETWIND | Attempting to convert ${deg}deg to cardinal direction.`
-  );
   let cardinal = "?";
   if (348.75 <= deg && deg < 360) {
     cardinal = "N";
@@ -38,8 +35,8 @@ export default function getWindDirection(deg) {
   } else if (326.25 <= deg && deg < 348.75) {
     cardinal = "NNW";
   } else {
-    console.log(`>> Error: ${deg}deg is not between 0 and 360.`);
+    console.log(`>> Wind Direction Error: ${deg}deg is not between 0 and 360.`);
   }
-  console.log(`>> Result ${cardinal}`);
+  console.log(`>> Wind direction converting ${deg}(deg) to ${cardinal}`);
   return cardinal;
 }

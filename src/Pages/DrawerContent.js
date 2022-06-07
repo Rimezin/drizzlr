@@ -1,9 +1,10 @@
 import { Button, Icon } from "@joshdschneider/formation";
 import React from "react";
-import Search from "../Components/Search";
-import ThemeToggle from "../Components/ThemeToggle";
-import Units from "../Components/Units";
-import UnitsWind from "../Components/UnitsWind";
+import Search from "../Components/FormElements/Search";
+import ThemeToggle from "../Components/FormElements/ThemeToggle";
+import TempUnits from "../Components/FormElements/TempUnits";
+import UnitsWind from "../Components/FormElements/UnitsWind";
+import UnitsTime from "../Components/FormElements/UnitsTime";
 
 export default function DrawerContent(props) {
   const {
@@ -12,10 +13,12 @@ export default function DrawerContent(props) {
     searching,
     location,
     getLocation,
-    units,
+    tempUnits,
     windUnits,
+    timeUnits,
     handleWindUnits,
-    handleUnits,
+    handleTempUnits,
+    handleTimeUnits,
     theme,
     toggleTheme,
   } = props;
@@ -62,22 +65,31 @@ export default function DrawerContent(props) {
         </Button>
       </div>
       <br />
-      <p>Location:</p>
+      <hr />
+      <h5>Location:</h5>
       <Search
         searching={searching}
         location={location}
         getLocation={getLocation}
       />
       <br />
-      <p>Temperature Units:</p>
-      <Units units={units} handleUnits={handleUnits} />
+      <hr />
+      <h5>Units</h5>
+      <div className="menu-units">
+        <p>Temperature:</p>
+        <TempUnits tempUnits={tempUnits} handleTempUnits={handleTempUnits} />
+      </div>
+      <div className="menu-units">
+        <p>Speed:</p>
+        <UnitsWind windUnits={windUnits} handleWindUnits={handleWindUnits} />
+      </div>
+      <div className="menu-units">
+        <p>Time:</p>
+        <UnitsTime timeUnits={timeUnits} handleTimeUnits={handleTimeUnits} />
+      </div>
       <br />
-      <br />
-      <p>Wind Speed Units:</p>
-      <UnitsWind windUnits={windUnits} handleWindUnits={handleWindUnits} />
-      <br />
-      <br />
-      <p>Theme:</p>
+      <hr />
+      <h5>Theme:</h5>
       <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
     </div>
   );

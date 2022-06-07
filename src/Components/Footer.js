@@ -1,6 +1,6 @@
 import React from "react";
 import { Tooltip, Icon } from "@joshdschneider/formation";
-import ThemeToggle from "./ThemeToggle";
+import ThemeToggle from "./FormElements/ThemeToggle";
 
 export default function Footer(props) {
   // Props //
@@ -27,7 +27,7 @@ export default function Footer(props) {
             style={{ color: theme === "light" ? "lightgray" : "dimgray" }}
             className="text-hidden"
           >
-            .0.4
+            .0.5
           </span>
         </a>
       </div>

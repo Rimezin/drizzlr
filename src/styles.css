@@ -4,6 +4,11 @@
   user-select: none;
 }
 
+.drizzlr-modal {
+  max-height: 35rem !important;
+  overflow-y: auto !important;
+}
+
 .card-header {
   display: flex !important;
   border-bottom: 1px solid #d3d8de;
@@ -11,12 +16,26 @@
   padding: 5px 10px 5px 10px;
   font-size: 1.1rem;
   align-items: center;
+  border-radius: 12px 12px 0 0;
+}
+
+.card-header-light {
+  background-color: #eff2f5;
+}
+
+.card-header-dark {
+  background-color: #1c2025;
 }
 
 .link-hover:hover {
   background-color: #eee;
   transition: all 0.75s;
   color: #3e3e3e;
+}
+
+.boxshadow {
+  /* offset-x | offset-y | blur-radius | spread-radius | color */
+  box-shadow: 0px 0.2rem 0.3rem 0.1rem rgba(0, 0, 0, 0.1);
 }
 
 .outline {
@@ -26,11 +45,6 @@
 
 .no-select {
   user-select: none;
-}
-
-.boxshadow {
-  /* offset-x | offset-y | blur-radius | spread-radius | color */
-  box-shadow: 0px 0.2rem 0.3rem 0.1rem rgba(0, 0, 0, 0.1);
 }
 
 .bg-blur {
@@ -50,6 +64,11 @@ main {
 .main-temp {
   font-size: 3rem;
   font-family: "Quicksand";
+}
+
+.main-title {
+  display: flex;
+  align-items: center;
 }
 
 .main-icon {
@@ -81,6 +100,7 @@ main {
 .wind-direction {
   font-size: 1.5rem;
   color: #4cbcec;
+  display: flex;
 }
 
 .wind-arrow {
@@ -109,6 +129,10 @@ main {
   font-size: 1.2rem;
 }
 
+.wind-speed-units.small {
+  font-size: 0.8rem;
+}
+
 @media only screen and (min-width: 768px) {
   .wind-arrow {
     width: 3rem !important;
@@ -125,58 +149,92 @@ main {
   .wind-speed-units {
     font-size: 1.25rem;
   }
+  .wind-speed-units.small {
+    font-size: 1rem;
+  }
   .wind-contents {
     margin-top: 3rem;
   }
 }
 
 .arrow-wnw {
-  transform: rotate(-157.5deg);
-}
-.arrow-nw {
-  transform: rotate(-135deg);
-}
-.arrow-nnw {
-  transform: rotate(-112deg);
-}
-.arrow-n {
-  transform: rotate(-90deg);
-}
-.arrow-nne {
-  transform: rotate(-67.5deg);
-}
-.arrow-ne {
-  transform: rotate(-45deg);
-}
-.arrow-ene {
-  transform: rotate(-22.5deg);
-}
-/* .arrow-e {
-  transform: rotate(45deg);
-} */
-.arrow-ese {
   transform: rotate(22.5deg);
 }
-.arrow-se {
+.arrow-nw {
   transform: rotate(45deg);
 }
-.arrow-sse {
+.arrow-nnw {
   transform: rotate(67.5deg);
 }
-.arrow-s {
+.arrow-n {
   transform: rotate(90deg);
 }
-.arrow-ssw {
+.arrow-nne {
   transform: rotate(112.5deg);
 }
-.arrow-sw {
+.arrow-ne {
   transform: rotate(135deg);
 }
-.arrow-wsw {
+.arrow-ene {
   transform: rotate(157.5deg);
 }
-.arrow-w {
+.arrow-e {
   transform: rotate(180deg);
+}
+.arrow-ese {
+  transform: rotate(-157.5deg);
+}
+.arrow-se {
+  transform: rotate(-135deg);
+}
+.arrow-sse {
+  transform: rotate(-112deg);
+}
+.arrow-s {
+  transform: rotate(-90deg);
+}
+.arrow-ssw {
+  transform: rotate(-67.5deg);
+}
+.arrow-sw {
+  transform: rotate(-45deg);
+}
+.arrow-wsw {
+  transform: rotate(-22.5deg);
+}
+/* .arrow-w {
+  transform: rotate(180deg);
+} */
+
+.wiggle-slow {
+  animation: wiggle-medium 3s;
+  animation-iteration-count: infinite;
+}
+.wiggle-medium {
+  animation: wiggle-medium 1s;
+  animation-iteration-count: infinite;
+}
+.wiggle-fast {
+  animation: wiggle-medium 0.3s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes wiggle-medium {
+  0% {
+    transform: rotate(-1deg);
+  }
+  10% {
+    transform: rotate(-2deg);
+  }
+  40% {
+    transform: rotate(1deg);
+  }
+  70% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    transform: rotate(1deg);
+  }
 }
 
 /* HEADER */
@@ -201,8 +259,17 @@ main {
   align-content: flex-start;
 }
 
+.menu-units {
+  flex-direction: row;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin: 0.5rem 0 0.5rem 0;
+}
+
 .logo {
-  font-size: larger;
+  font-size: 1.6rem;
   font-family: "Quicksand";
   font-weight: 700;
   margin-right: auto;
@@ -214,7 +281,7 @@ main {
 }
 
 .logo-icon {
-  margin-right: 0.5rem;
+  margin-right: 0.7rem;
 }
 
 /* DRAWER */
@@ -280,5 +347,38 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+}
+
+/* ALERTS */
+
+.alerts-div {
+  margin-left: 1rem;
+  justify-content: center !important;
+  cursor: pointer;
+}
+
+.alerts-icon {
+  height: 1.5rem !important;
+  width: 1.5rem !important;
+  animation-name: orangepulse;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate-reverse;
+  animation-timing-function: ease;
+  transition: 0.2s !important;
+}
+
+.alerts-icon:hover {
+  height: 1.6rem !important;
+  width: 1.6rem !important;
+  /* filter: drop-shadow(0px 2px 6px rgb(0 0 0 / 0.2)); */
+}
+
+@keyframes orangepulse {
+  from {
+  }
+  to {
+    fill: orange;
   }
 }
