@@ -83,7 +83,7 @@ export default function MainCard(props) {
     <Card style={{ width: "18rem", maxWidth: "76%" }} interactive={true}>
       <div
         className={`card-header ${
-          theme === "light" ? "card-header-light" : "card-header-dark"
+          theme === "light" ? "bg-alt-light" : "bg-alt-dark"
         }`}
         style={{ borderColor: theme === "light" ? "#d3d8de" : "#383e47" }}
       >
@@ -92,11 +92,10 @@ export default function MainCard(props) {
           variant="light"
           className="main-refresh"
           onClick={handleRefresh}
-          leftIcon={icons.refresh}
           minimal
-          intent="primary"
+          // intent="primary"
         >
-          {time}
+          <Icon icon="refresh" intent="default" size="small" />
         </Button>
       </div>
       <div className="card-contents">
@@ -106,6 +105,7 @@ export default function MainCard(props) {
           </h4>
           {alerts()}
         </div>
+        <small className="text-blue">As of {time}</small>
         <p>
           <div className="main">
             <span className="main-temp">

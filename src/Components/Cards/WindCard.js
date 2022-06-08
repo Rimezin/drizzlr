@@ -25,7 +25,7 @@ export default function WindCard(props) {
     <Card style={{ width: "18rem", maxWidth: "76%" }} interactive={true}>
       <div
         className={`card-header ${
-          theme === "light" ? "card-header-light" : "card-header-dark"
+          theme === "light" ? "bg-alt-light" : "bg-alt-dark"
         }`}
         style={{ borderColor: theme === "light" ? "#d3d8de" : "#383e47" }}
       >

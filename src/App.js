@@ -473,6 +473,7 @@ export default function App() {
           theme={theme}
           toggleTheme={toggleTheme}
           handleDrawer={handleDrawer}
+          openModal={openModal}
         />
       </footer>
     </ThemeProvider>

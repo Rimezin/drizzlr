@@ -4,6 +4,30 @@
   user-select: none;
 }
 
+.text-blue {
+  color: #4cbcec !important;
+}
+
+.text-warning {
+  color: #ec9a3c !important;
+}
+
+.text-primary {
+  color: #4c90f0 !important;
+}
+
+.bg-alt-light {
+  background-color: #eff2f5 !important;
+}
+
+.bg-alt-dark {
+  background-color: #1c2025 !important;
+}
+
+.bg-alt-mid {
+  background-color: #f9fafb !important;
+}
+
 .drizzlr-modal {
   max-height: 35rem !important;
   overflow-y: auto !important;
@@ -17,14 +41,6 @@
   font-size: 1.1rem;
   align-items: center;
   border-radius: 12px 12px 0 0;
-}
-
-.card-header-light {
-  background-color: #eff2f5;
-}
-
-.card-header-dark {
-  background-color: #1c2025;
 }
 
 .link-hover:hover {
@@ -381,4 +397,54 @@ main {
   to {
     fill: orange;
   }
+}
+
+.daily-contents {
+  display: flex;
+  margin: 1rem -0.6rem 1rem -0.6rem;
+}
+
+.day-card {
+  margin: 0.5rem !important;
+  padding: 0.7rem !important;
+  font-size: 0.8rem;
+}
+
+.day-card:hover {
+  /* filter: drop-shadow(0px 1px 4px rgb(0 0 0 / 0.2)); */
+  border: 2px solid #4cbcec !important;
+}
+
+.day-temp {
+  font-weight: 900;
+  font-size: 0.85rem !important;
+  /* margin: 0.25rem -0.5rem 0.25rem -0.5rem !important; */
+}
+
+.day-day {
+  text-align: center;
+  font-size: 1.1rem;
+  font-variant: small-caps;
+}
+
+.day-wind-units {
+  font-size: 0.5rem;
+  color: gray;
+}
+
+.day-icon {
+  width: 3rem;
+  margin: 0 -0.5rem 0 -0.5rem;
+}
+
+.more-button {
+  display: flex;
+  justify-content: right;
+}
+
+.attribute {
+  color: gray;
+  font-size: 0.5rem;
+  cursor: pointer;
+  margin-right: 1rem;
 }
