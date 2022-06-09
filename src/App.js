@@ -21,6 +21,7 @@ import {
 import Home from "./Pages/Home";
 import Radar from "./Pages/Radar";
 import DrawerContent from "./Pages/DrawerContent";
+import Daily from "./Pages/Daily";
 
 ////////////////////////////////
 /////////// MAIN APP ///////////
@@ -91,8 +92,12 @@ export default function App() {
 
   function handlePage(event) {
     event.preventDefault();
-    console.log(`HANDLE PAGE | ${event.target.name}`);
-    setPage(event.target.name);
+    const goTo =
+      typeof event.target.name === "undefined" || event.target.name === ""
+        ? event.target.id
+        : event.target.name;
+    console.log(`HANDLE PAGE | ${goTo}`);
+    setPage(goTo);
   }
 
   // State to hold location - default Weatherly, PA //
@@ -453,6 +458,7 @@ export default function App() {
           theme={theme}
           toggleTheme={toggleTheme}
           handleDrawer={handleDrawer}
+          handlePage={handlePage}
         />
       </header>
 
@@ -464,9 +470,18 @@ export default function App() {
             weather={weather}
             openModal={openModal}
             theme={theme}
+            handlePage={handlePage}
           />
         )}
         {page === "Radar" && <Radar />}
+        {page === "Daily" && (
+          <Daily
+            location={location}
+            weather={weather}
+            theme={theme}
+            handlePage={handlePage}
+          />
+        )}
       </main>
       <footer>
         <Footer

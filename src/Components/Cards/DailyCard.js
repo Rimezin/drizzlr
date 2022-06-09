@@ -4,7 +4,7 @@ import React from "react";
 import convertDay from "../../Hooks/convertDay";
 
 export default function DailyCard(props) {
-  const { location, weather, theme } = props;
+  const { location, weather, theme, handlePage } = props;
 
   const icons = {
     more: <Icon icon="double-chevron-right" intent="default" size="small" />,
@@ -61,8 +61,9 @@ export default function DailyCard(props) {
 */
 
   // Render Day Elements //
-  const dayElements = weather.daily.slice(1, 5).map((day) => (
+  const dayElements = weather.daily.slice(1, 4).map((day) => (
     <Card
+      key={`day${weather.daily.indexOf(day)}`}
       className={`day-card ${theme === "dark" ? "bg-alt-dark" : "bg-alt-mid"}`}
     >
       <div className="day-day">{convertDay(day.dt, true)}</div>
@@ -71,6 +72,7 @@ export default function DailyCard(props) {
         className="day-icon"
         alt="weather icon"
       />
+      <div className="day-desc">{day.weather[0].main}</div>
       <div style={{ fontWeight: "300", textAlign: "center" }}>
         <span className="day-temp text-warning">{day.temp.max}</span>/
         <span className="day-temp text-primary">{day.temp.min}</span>
@@ -87,8 +89,9 @@ export default function DailyCard(props) {
           icon="tint"
           size="small"
           style={{ height: ".75rem", width: ".75rem", fill: "#4cbcec" }}
+          className="day-little-icon"
         />
-        {day.pop * 100}%
+        {Math.floor(day.pop * 100)}%
       </div>
       <div
         style={{
@@ -101,6 +104,7 @@ export default function DailyCard(props) {
           icon="wind"
           size="small"
           style={{ height: ".75rem", width: ".75rem" }}
+          className="day-little-icon"
         />
         {day.wind_speed}
         <span className="day-wind-units">{day.wind_units}</span>
@@ -116,14 +120,21 @@ export default function DailyCard(props) {
         }`}
         style={{ borderColor: theme === "light" ? "#d3d8de" : "#383e47" }}
       >
-        <span>Next 4 Days in {location.name}</span>
+        <span>3-Day Outlook</span>
         <Button
+          name="Daily"
+          id="Daily"
           variant="light"
-          className="main-refresh"
+          className="button-icon"
+          onClick={handlePage}
           minimal
-          // intent="primary"
         >
-          <Icon icon="double-chevron-right" intent="default" size="small" />
+          <Icon
+            className="no-pointer"
+            icon="double-chevron-right"
+            intent="default"
+            size="small"
+          />
         </Button>
       </div>
       <div className="card-contents daily-contents">

@@ -4,6 +4,15 @@
   user-select: none;
 }
 
+button {
+  outline: none;
+}
+
+/* body {
+  overflow-x: hidden;
+  overflow-y: hidden;
+} */
+
 .text-blue {
   color: #4cbcec !important;
 }
@@ -26,6 +35,13 @@
 
 .bg-alt-mid {
   background-color: #f9fafb !important;
+}
+
+.button-icon {
+  align-self: center;
+  margin-left: auto !important;
+  font-size: 0.8rem !important;
+  font-weight: 600 !important;
 }
 
 .drizzlr-modal {
@@ -63,12 +79,17 @@
   user-select: none;
 }
 
+.no-pointer:active {
+  pointer-events: none;
+}
+
 .bg-blur {
   backdrop-filter: blur(1px) opacity(0.7);
 }
 
 main {
   margin-top: 70px;
+  margin-bottom: 50px;
 }
 
 .main {
@@ -89,6 +110,7 @@ main {
 
 .main-icon {
   width: 5rem;
+  filter: drop-shadow(0px 1px 2px rgb(0 0 0 / 0.2));
 }
 
 .main-condition {
@@ -103,13 +125,6 @@ main {
 .main-alt-temps {
   text-align: center;
   font-size: 1.25rem;
-}
-
-.main-refresh {
-  align-self: center;
-  margin-left: auto !important;
-  font-size: 0.8rem !important;
-  font-weight: 600 !important;
 }
 
 /* WIND */
@@ -284,6 +299,12 @@ main {
   margin: 0.5rem 0 0.5rem 0;
 }
 
+.logo-container {
+  display: flex;
+  margin-right: auto;
+  cursor: pointer;
+}
+
 .logo {
   font-size: 1.6rem;
   font-family: "Quicksand";
@@ -358,8 +379,23 @@ main {
   flex-direction: row;
 }
 
+.page-daily {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.page-title {
+  text-align: left;
+}
+
 @media only screen and (max-width: 768px) {
   .page-home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .page-daily {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -410,31 +446,110 @@ main {
   font-size: 0.8rem;
 }
 
+.day-page-card {
+  margin: 2rem !important;
+  padding: 2rem !important;
+  max-width: 500px !important;
+  width: 20rem !important;
+}
+
 .day-card:hover {
   /* filter: drop-shadow(0px 1px 4px rgb(0 0 0 / 0.2)); */
-  border: 2px solid #4cbcec !important;
+  border: 1px solid #4cbcec !important;
 }
 
 .day-temp {
   font-weight: 900;
   font-size: 0.85rem !important;
-  /* margin: 0.25rem -0.5rem 0.25rem -0.5rem !important; */
+}
+.day-page-temp {
+  font-weight: 900;
+  font-size: 1.5rem !important;
+  padding: 0.25rem;
+}
+
+.day-page-temp-container {
+  border-radius: 1rem;
+  width: fit-content;
+  min-width: 16rem;
+  margin: auto;
+  padding: 0.5rem 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .day-day {
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-variant: small-caps;
+}
+
+.day-page-day {
+  text-align: start;
+  font-size: 2rem;
+  font-variant: small-caps;
+  display: flex;
+  align-items: center;
+  margin-top: -1rem;
+}
+
+.day-page-date {
+  font-size: 1.2rem !important;
+  margin-left: 1rem;
+  margin-right: -1rem;
+  color: gray;
+}
+
+.day-desc {
+  font-size: 0.65rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  color: gray;
+}
+
+.day-page-desc {
+  margin-top: -0.75rem;
+  margin-bottom: 1rem;
+  color: #4cbcec;
 }
 
 .day-wind-units {
   font-size: 0.5rem;
   color: gray;
 }
+.day-page-wind-units {
+  font-size: 0.8rem;
+  color: gray;
+}
+
+.day-page-tertiary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  margin: 1rem 0 1rem 0;
+  border: 1px solid #383e47;
+  padding: 0.5rem 0.25rem 0.5rem 0.25rem;
+  border-radius: 1rem;
+}
 
 .day-icon {
   width: 3rem;
-  margin: 0 -0.5rem 0 -0.5rem;
+  margin: 0 10% 0 10%;
+  filter: drop-shadow(0px 1px 2px rgb(0 0 0 / 0.2));
+}
+
+.day-page-icon {
+  width: 4rem;
+  margin: 0 10% 0 10%;
+  filter: drop-shadow(0px 1px 2px rgba(255, 255, 255, 0.6)) !important;
+}
+
+.day-little-icon {
+  margin-right: 0.25rem;
 }
 
 .more-button {
@@ -442,9 +557,13 @@ main {
   justify-content: right;
 }
 
+.back-button {
+  display: flex;
+  justify-content: start;
+}
+
 .attribute {
   color: gray;
   font-size: 0.5rem;
   cursor: pointer;
-  margin-right: 1rem;
 }

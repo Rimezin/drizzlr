@@ -2,16 +2,16 @@ import { Icon } from "@joshdschneider/formation";
 import React from "react";
 
 export default function Logo(props) {
-  const { theme } = props;
+  const { theme, handlePage } = props;
   return (
-    <>
+    <div id="Home" name="Home" onClick={handlePage} className="logo-container">
       <Icon
         icon="rain"
         size="large"
-        className="logo-icon"
+        className="logo-icon no-pointer"
         style={{ height: "32px", width: "32px" }}
       />
-      <div className="logo">
+      <div className="logo no-pointer">
         Drizzlr
         <span
           style={{ color: theme === "light" ? "lightgray" : "dimgray" }}
@@ -20,6 +20,6 @@ export default function Logo(props) {
           .app
         </span>
       </div>
-    </>
+    </div>
   );
 }

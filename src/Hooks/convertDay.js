@@ -1,8 +1,7 @@
 export default function convertDay(unixTime, isShort) {
-  console.log(`CONVERTING DAY OF WEEK ||`);
   const date = new Date(unixTime * 1000);
   let day = date.getDay();
-  console.log(typeof day);
+
   switch (day) {
     case 0:
       day = "Sunday";
@@ -34,5 +33,6 @@ export default function convertDay(unixTime, isShort) {
     day = day.substring(0, 3);
   }
 
+  console.log(`CONVERTING DAY OF WEEK || ${day}`);
   return day;
 }

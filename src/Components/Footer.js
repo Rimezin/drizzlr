@@ -15,8 +15,8 @@ export default function Footer(props) {
       <div>
         <div>
           <p>
-            Added daily forecast and hourly forecast in this version. I updated
-            this "What's New" modal.
+            Added daily forecast in this version. I updated this "What's New"
+            modal.
           </p>
           <br />
         </div>
@@ -29,6 +29,7 @@ export default function Footer(props) {
             View on GitHub
           </a>
         </div>
+        <small className="attribute">Powered by Open Weather API</small>
       </div>,
       `What's new in v0.0.6?`,
       "rocket"
@@ -59,8 +60,6 @@ export default function Footer(props) {
           .0.6
         </span>
       </div>
-
-      <small className="attribute">Powered by Open Weather API</small>
       <ThemeToggle
         theme={theme}
         toggleTheme={toggleTheme}

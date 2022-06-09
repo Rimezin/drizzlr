@@ -90,12 +90,17 @@ export default function MainCard(props) {
         <span>Current Conditions</span>
         <Button
           variant="light"
-          className="main-refresh"
+          className="button-icon"
           onClick={handleRefresh}
           minimal
           // intent="primary"
         >
-          <Icon icon="refresh" intent="default" size="small" />
+          <Icon
+            className="no-pointer"
+            icon="refresh"
+            intent="default"
+            size="small"
+          />
         </Button>
       </div>
       <div className="card-contents">

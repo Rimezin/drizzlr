@@ -4,7 +4,7 @@ import { Button, Icon } from "@joshdschneider/formation";
 
 export default function Header(props) {
   // Props //
-  const { handleDrawer, theme } = props;
+  const { handleDrawer, theme, handlePage } = props;
 
   //// MAIN RENDER ////
   return (
@@ -15,7 +15,7 @@ export default function Header(props) {
           backgroundColor: theme === "light" ? "#eff2f5" : "#1c2025",
         }}
       >
-        <Logo theme={theme} />
+        <Logo theme={theme} handlePage={handlePage} />
         <Button onClick={handleDrawer} style={{ marginRight: "1.5rem" }}>
           <Icon icon="menu" />
         </Button>

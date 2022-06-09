@@ -30,6 +30,7 @@ export default function convertWeatherUnits(
       morn: convertTemp(prevTempUnits, prevDay.temp.morn, newTempUnits),
       units: newTempUnits,
     },
+    dew_point: convertTemp(prevTempUnits, prevDay.dew_point, newTempUnits),
     feels_like: {
       day: convertTemp(prevTempUnits, prevDay.feels_like.day, newTempUnits),
       night: convertTemp(prevTempUnits, prevDay.feels_like.night, newTempUnits),

@@ -28,6 +28,7 @@ export default function DrawerContent(props) {
   const icon = {
     home: <Icon icon="home" intent="default" size="regular" />,
     radar: <Icon icon="scatter-plot" intent="default" size="regular" />,
+    daily: <Icon icon="calendar" intent="default" size="regular" />,
   };
 
   return (
@@ -62,6 +63,21 @@ export default function DrawerContent(props) {
           }}
         >
           Radar
+        </Button>
+        <Button
+          name="Daily"
+          minimal
+          intent="primary"
+          leftIcon={icon.daily}
+          rightIcon={page === "Daily" ? selected : null}
+          onClick={handlePage}
+          style={{
+            justifyContent: "left",
+            userSelect: "none",
+            pointerEvents: page === "Daily" ? "none" : null,
+          }}
+        >
+          Daily
         </Button>
       </div>
       <br />
