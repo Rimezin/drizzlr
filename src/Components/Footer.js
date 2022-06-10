@@ -8,6 +8,7 @@ export default function Footer(props) {
 
   const tooltip = {
     version: <span>Release Info</span>,
+    privacy: <span>Privacy Policy</span>,
   };
 
   function handleVersion() {
@@ -15,8 +16,8 @@ export default function Footer(props) {
       <div>
         <div>
           <p>
-            Added daily forecast in this version. I updated this "What's New"
-            modal.
+            Added Day page. Added units toggle for rain/snow volume. Added
+            clickable day cards to point to the new Day page.
           </p>
           <br />
         </div>
@@ -31,8 +32,23 @@ export default function Footer(props) {
         </div>
         <small className="attribute">Powered by Open Weather API</small>
       </div>,
-      `What's new in v0.0.6?`,
+      `What's new in v0.0.7?`,
       "rocket"
+    );
+  }
+
+  function handlePrivacy() {
+    openModal(
+      <div>
+        <p>Drizzlr doesn't collect your information.</p>
+        <p>
+          Drizzlr stores the unit variables and the location you provide on your
+          browser's local storage.
+        </p>
+        <br />
+      </div>,
+      `Privacy Policy`,
+      "eye-off"
     );
   }
 
@@ -44,7 +60,6 @@ export default function Footer(props) {
         backgroundColor: theme === "light" ? "#eff2f5" : "#1c2025",
       }}
     >
-      <Tooltip selector="#version" content={tooltip.version} />
       <Icon icon="chevron-right" size="large" style={{ fill: "gray" }} />
       <div
         id="version"
@@ -57,8 +72,18 @@ export default function Footer(props) {
           style={{ color: theme === "light" ? "lightgray" : "dimgray" }}
           className="text-hidden"
         >
-          .0.6
+          .0.7
         </span>
+      </div>
+      <Tooltip selector="#version" content={tooltip.version} />
+      <Tooltip selector="#privacy" content={tooltip.privacy} />
+      <div
+        id="privacy"
+        className="privacy"
+        onClick={handlePrivacy}
+        style={{ cursor: "pointer" }}
+      >
+        <Icon icon="eye-off" size="large" />
       </div>
       <ThemeToggle
         theme={theme}

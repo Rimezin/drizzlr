@@ -5,6 +5,7 @@ import ThemeToggle from "../Components/FormElements/ThemeToggle";
 import TempUnits from "../Components/FormElements/TempUnits";
 import UnitsWind from "../Components/FormElements/UnitsWind";
 import UnitsTime from "../Components/FormElements/UnitsTime";
+import UnitsVolume from "../Components/FormElements/UnitsVolume";
 
 export default function DrawerContent(props) {
   const {
@@ -21,6 +22,8 @@ export default function DrawerContent(props) {
     handleTimeUnits,
     theme,
     toggleTheme,
+    volumeUnits,
+    handleVolumeUnits,
   } = props;
 
   const selected = <Icon icon="arrow-left" intent="default" size="small" />;
@@ -69,7 +72,7 @@ export default function DrawerContent(props) {
           minimal
           intent="primary"
           leftIcon={icon.daily}
-          rightIcon={page === "Daily" ? selected : null}
+          rightIcon={page === "Daily" || page === "Day" ? selected : null}
           onClick={handlePage}
           style={{
             justifyContent: "left",
@@ -94,6 +97,13 @@ export default function DrawerContent(props) {
       <div className="menu-units">
         <p>Temperature:</p>
         <TempUnits tempUnits={tempUnits} handleTempUnits={handleTempUnits} />
+      </div>
+      <div className="menu-units">
+        <p>Volume:</p>
+        <UnitsVolume
+          volumeUnits={volumeUnits}
+          handleVolumeUnits={handleVolumeUnits}
+        />
       </div>
       <div className="menu-units">
         <p>Speed:</p>

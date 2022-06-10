@@ -2,7 +2,7 @@
 
 export default function convertTemp(prevUnit, prevTemp, units) {
   if (prevUnit === null || units === null) {
-    console.log(">> convert temp was provided null units, so aborted.");
+    console.log("--> convert temp was provided null units, so aborted.");
     return prevTemp;
   }
 
@@ -45,13 +45,13 @@ export default function convertTemp(prevUnit, prevTemp, units) {
     }
   } else {
     console.log(
-      ">> Temperature Conversion FAILED! Units was not recognized..."
+      "--> Temperature Conversion FAILED! Units was not recognized..."
     );
     return prevTemp;
   }
   newTemp = Math.round(newTemp);
   console.log(
-    `>> Temperature converting ${prevTemp}${prevUnit} to ${newTemp}${units}...`
+    `--> Temperature converting ${prevTemp}${prevUnit} to ${newTemp}${units}...`
   );
   return newTemp;
 }

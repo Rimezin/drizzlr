@@ -22,6 +22,7 @@ import Home from "./Pages/Home";
 import Radar from "./Pages/Radar";
 import DrawerContent from "./Pages/DrawerContent";
 import Daily from "./Pages/Daily";
+import Day from "./Pages/Day";
 
 ////////////////////////////////
 /////////// MAIN APP ///////////
@@ -86,6 +87,18 @@ export default function App() {
     });
   }
 
+  //// DRAWER ////
+  const [drawer, setDrawer] = React.useState({
+    open: false,
+  });
+
+  function handleDrawer() {
+    setDrawer((d) => ({
+      ...d,
+      open: !d.open,
+    }));
+  }
+
   //// PAGES ////
   // State to hold navigated page //
   const [page, setPage] = React.useState("Home");
@@ -98,6 +111,24 @@ export default function App() {
         : event.target.name;
     console.log(`HANDLE PAGE | ${goTo}`);
     setPage(goTo);
+    setDrawer((d) => ({
+      ...d,
+      open: false,
+    }));
+  }
+
+  const [day, setDay] = React.useState(0);
+
+  function handleDay(day) {
+    console.log(`DAY RECEIVED: ${day}`);
+    setDay(day);
+    handlePage({
+      target: {
+        name: "Day",
+        id: "Day",
+      },
+      preventDefault: () => console.log("Prevent Default Dummy"),
+    });
   }
 
   // State to hold location - default Weatherly, PA //
@@ -268,6 +299,10 @@ export default function App() {
   const [tempUnits, setTempUnits] = useStickyState("F", "drizzlr_temp_unit");
   const [windUnits, setWindUnits] = useStickyState("mph", "drizzlr_wind_speed");
   const [timeUnits, setTimeUnits] = useStickyState("12hr", "drizzlr_time_unit");
+  const [volumeUnits, setVolumeUnits] = useStickyState(
+    "in",
+    "drizzlr_vol_unit"
+  );
 
   function handleTempUnits(e) {
     e.preventDefault();
@@ -281,7 +316,28 @@ export default function App() {
         null,
         windUnits,
         timeUnits,
+        null,
+        null,
         null
+      )
+    );
+  }
+
+  function handleVolumeUnits(e) {
+    e.preventDefault();
+    const prevVolumeUnits = volumeUnits;
+    setVolumeUnits(e.target.value);
+    setWeather(
+      convertWeatherUnits(
+        weather,
+        null,
+        tempUnits,
+        null,
+        windUnits,
+        timeUnits,
+        null,
+        prevVolumeUnits,
+        e.target.value
       )
     );
   }
@@ -298,6 +354,8 @@ export default function App() {
         prevWindUnits,
         e.target.value,
         timeUnits,
+        null,
+        null,
         null
       )
     );
@@ -311,11 +369,13 @@ export default function App() {
       convertWeatherUnits(
         weather,
         null,
+        tempUnits,
         null,
-        null,
-        null,
+        windUnits,
         prevTimeUnits,
-        e.target.value
+        e.target.value,
+        null,
+        null
       )
     );
   }
@@ -352,7 +412,9 @@ export default function App() {
             "m/s",
             windUnits,
             "24hr",
-            timeUnits
+            timeUnits,
+            "mm",
+            volumeUnits
           )
         );
       });
@@ -403,18 +465,6 @@ export default function App() {
     getWeather();
   }, [location]);
 
-  //// DRAWER ////
-  const [drawer, setDrawer] = React.useState({
-    open: false,
-  });
-
-  function handleDrawer() {
-    setDrawer((d) => ({
-      ...d,
-      open: !d.open,
-    }));
-  }
-
   return (
     <ThemeProvider theme={theme}>
       <Modal
@@ -450,6 +500,8 @@ export default function App() {
           handleTimeUnits={handleTimeUnits}
           theme={theme}
           toggleTheme={toggleTheme}
+          volumeUnits={volumeUnits}
+          handleVolumeUnits={handleVolumeUnits}
         />
       </Drawer>
 
@@ -471,6 +523,7 @@ export default function App() {
             openModal={openModal}
             theme={theme}
             handlePage={handlePage}
+            handleDay={handleDay}
           />
         )}
         {page === "Radar" && <Radar />}
@@ -480,6 +533,17 @@ export default function App() {
             weather={weather}
             theme={theme}
             handlePage={handlePage}
+            handleDay={handleDay}
+            day={day}
+          />
+        )}
+        {page === "Day" && (
+          <Day
+            location={location}
+            weather={weather}
+            theme={theme}
+            handlePage={handlePage}
+            day={day}
           />
         )}
       </main>

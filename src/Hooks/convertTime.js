@@ -1,6 +1,5 @@
 export default function convertTime(unixTime, format) {
   // multiplied by 1000 so that the argument is in milliseconds not seconds.
-  console.log(`CONVERTING TIME ||`);
 
   var date = new Date(unixTime * 1000);
   var hours = date.getHours();
@@ -15,6 +14,6 @@ export default function convertTime(unixTime, format) {
   // Will display time in 10:30 format
   var formattedTime = hours + ":" + minutes.substring(-2);
   // + ":" + seconds.substring(-2);
-  console.log(`>> Converting ${unixTime} to ${formattedTime}`);
+  console.log(`--> Converting ${unixTime} to ${formattedTime}`);
   return formattedTime;
 }

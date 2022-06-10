@@ -4,7 +4,8 @@ import convertTime from "../../Hooks/convertTime";
 import convertDateTime from "../../Hooks/convertDateTime";
 
 export default function MainCard(props) {
-  const { location, weather, handleRefresh, theme, openModal } = props;
+  const { location, weather, handleRefresh, theme, openModal, handleDay } =
+    props;
 
   const [time, setTime] = React.useState("");
 
@@ -79,6 +80,10 @@ export default function MainCard(props) {
     }
   }
 
+  function handleDayClick() {
+    handleDay(0);
+  }
+
   return (
     <Card style={{ width: "18rem", maxWidth: "76%" }} interactive={true}>
       <div
@@ -88,20 +93,36 @@ export default function MainCard(props) {
         style={{ borderColor: theme === "light" ? "#d3d8de" : "#383e47" }}
       >
         <span>Current Conditions</span>
-        <Button
-          variant="light"
-          className="button-icon"
-          onClick={handleRefresh}
-          minimal
-          // intent="primary"
-        >
-          <Icon
-            className="no-pointer"
-            icon="refresh"
-            intent="default"
-            size="small"
-          />
-        </Button>
+        <div className="button-header-container">
+          <Button
+            variant="light"
+            className="button-icon"
+            onClick={handleRefresh}
+            minimal
+            // intent="primary"
+          >
+            <Icon
+              className="no-pointer"
+              icon="refresh"
+              intent="default"
+              size="small"
+            />
+          </Button>
+          <Button
+            variant="light"
+            className="button-icon"
+            onClick={handleDayClick}
+            minimal
+            // intent="primary"
+          >
+            <Icon
+              className="no-pointer"
+              icon="double-chevron-right"
+              intent="default"
+              size="small"
+            />
+          </Button>
+        </div>
       </div>
       <div className="card-contents">
         <div className="main-title">

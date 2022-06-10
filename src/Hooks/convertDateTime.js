@@ -1,6 +1,5 @@
 export default function convertDateTime(unixTime, format) {
   // multiplied by 1000 so that the argument is in milliseconds not seconds.
-  console.log(`CONVERTING DAY/TIME ||`);
   let date = new Date(unixTime * 1000);
 
   // Date //
@@ -25,6 +24,6 @@ export default function convertDateTime(unixTime, format) {
 
   // Final result //
   let formatted = formattedDate + " " + formattedTime;
-  console.log(`>> Converting ${unixTime} to ${formatted}`);
+  console.log(`>> Converting day/time from ${unixTime} to ${formatted}`);
   return formatted;
 }
