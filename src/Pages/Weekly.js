@@ -2,11 +2,10 @@ import React from "react";
 import convertDay from "../Hooks/convertDay";
 import { Button, Card, Icon } from "@joshdschneider/formation";
 import convertDate from "../Hooks/convertDate";
-import getArrow from "../Hooks/getArrow";
 import getWiggle from "../Hooks/getWiggle";
 
 export default function Daily(props) {
-  const { location, weather, theme, handlePage, day, handleDay } = props;
+  const { location, weather, theme, handlePage, handleDay } = props;
 
   /**
   {
@@ -57,14 +56,14 @@ export default function Daily(props) {
   // Render Day Elements //
   const dayElements = weather.daily.map((thisDay, index) => (
     <div
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", display: "flex", justifyContent: "center" }}
       onClick={() => {
         handleDay(index);
       }}
     >
       <Card
         key={`Day_${index}`}
-        style={{ width: "18rem", maxWidth: "76%" }}
+        style={{ width: "18rem", maxWidth: "76%", margin: "10px" }}
         className={` ${theme === "dark" ? "bg-alt-dark" : "bg-alt-mid"}`}
         interactive
       >
@@ -176,21 +175,31 @@ export default function Daily(props) {
 
   return (
     <>
-      <div className="back-button">
-        <Button
-          leftIcon={<Icon icon="double-chevron-left" />}
-          minimal
-          intent="primary"
-          name="Home"
-          onClick={handlePage}
-          size="small"
-        >
-          Back to Home
-        </Button>
+      <div
+        className={`page-nav ${
+          theme === "dark" ? "bg-alt-dark-nav" : "bg-alt-mid-nav"
+        }`}
+      >
+        <div className="back-button">
+          <Button
+            leftIcon={<Icon icon="double-chevron-left" />}
+            minimal
+            intent="primary"
+            name="Home"
+            onClick={handlePage}
+            size="small"
+          >
+            Home
+          </Button>
+        </div>
+        <div className="page-title-container">
+          <span className="page-title">Weekly Outlook</span>
+          <span className="page-sub-title">in {location.name}</span>
+        </div>
       </div>
-
-      <h1 className="page-title">Daily Forecast in {location.name}</h1>
-      <div className="page-daily">{dayElements}</div>
+      <div className="page-container">
+        <div className="page-daily">{dayElements}</div>
+      </div>
     </>
   );
 }

@@ -30,7 +30,14 @@ export default function MainCard(props) {
 
   const icons = {
     refresh: <Icon icon="refresh" intent="default" size="small" />,
-    feel: <Icon icon="heart" intent="default" size="small" />,
+    feel: (
+      <Icon
+        icon="heart"
+        intent="default"
+        size="small"
+        style={{ fill: "#ff5db4" }}
+      />
+    ),
     high: <Icon icon="double-chevron-up" intent="warning" size="small" />,
     low: <Icon icon="double-chevron-down" intent="primary" size="small" />,
   };

@@ -15,14 +15,18 @@ import {
   Drawer,
   Modal,
   ThemeProvider,
+  Button,
 } from "@joshdschneider/formation";
 
 // Pages //
 import Home from "./Pages/Home";
 import Radar from "./Pages/Radar";
 import DrawerContent from "./Pages/DrawerContent";
-import Daily from "./Pages/Daily";
+import Weekly from "./Pages/Weekly";
 import Day from "./Pages/Day";
+import Layover from "./Components/Layover";
+import Logo from "./Components/Logo";
+import Hourly from "./Pages/Hourly";
 
 ////////////////////////////////
 /////////// MAIN APP ///////////
@@ -100,6 +104,13 @@ export default function App() {
   }
 
   //// PAGES ////
+
+  // Scroll to top of page //
+  function scrollTop() {
+    document.body.scrollTop = 0; // Safari
+    document.documentElement.scrollTop = 0; // Chrome, Firefox, IE, Opera
+  }
+
   // State to hold navigated page //
   const [page, setPage] = React.useState("Home");
 
@@ -111,6 +122,7 @@ export default function App() {
         : event.target.name;
     console.log(`HANDLE PAGE | ${goTo}`);
     setPage(goTo);
+    scrollTop();
     setDrawer((d) => ({
       ...d,
       open: false,
@@ -422,7 +434,7 @@ export default function App() {
 
   // Refresh weather //
   function handleRefresh(e) {
-    e.preventDefault();
+    // e.preventDefault();
     console.log("REFRESH WEATHER ||");
     const current = new Date();
     console.log(`>> Current time: ${current.toString()}`);
@@ -464,6 +476,65 @@ export default function App() {
   React.useEffect(() => {
     getWeather();
   }, [location]);
+
+  // OVERLAY / LAYOVER //
+  const [overlay, setOverlay] = React.useState({
+    isOpen: false,
+    onClose: null,
+    focus: true,
+    closeOnEscapeKey: true,
+    closeOnOuterClick: true,
+    contents: (
+      <div className="overlay-div">
+        <div className="logo-container-overlay">
+          <Logo theme={theme} handlePage={handlePage} />
+        </div>
+        <br />
+        <p>
+          This data is stale. Click the refresh button below to get a new batch!
+        </p>
+        <br />
+        <Button onClick={handleOverlayRefresh}>Refresh</Button>
+      </div>
+    ),
+  });
+
+  // Timer //
+  const [seconds, setSeconds] = React.useState(600);
+
+  function handleOverlay(object) {
+    setOverlay((prevOverlay) => ({
+      ...prevOverlay,
+      ...object,
+    }));
+  }
+
+  function handleOverlayRefresh(e) {
+    handleRefresh(e);
+    handleOverlay({
+      isOpen: false,
+    });
+    setSeconds(600);
+    console.log("Overlay Refreshed !!");
+  }
+
+  React.useEffect(() => {
+    let myInterval = setInterval(() => {
+      if (seconds > 0) {
+        setSeconds(seconds - 1);
+        console.log(`$Timer: ${seconds}`);
+      } else if (seconds === 0) {
+        clearInterval(myInterval);
+        console.log(`$Time's up, opening overlay!'`);
+        handleOverlay({
+          isOpen: true,
+        });
+      }
+    }, 1000);
+    return () => {
+      clearInterval(myInterval);
+    };
+  }, [seconds]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -514,6 +585,8 @@ export default function App() {
         />
       </header>
 
+      <Layover overlay={overlay} />
+
       <main>
         {page === "Home" && (
           <Home
@@ -527,8 +600,18 @@ export default function App() {
           />
         )}
         {page === "Radar" && <Radar />}
-        {page === "Daily" && (
-          <Daily
+        {page === "Hourly" && (
+          <Hourly
+            location={location}
+            weather={weather}
+            theme={theme}
+            handlePage={handlePage}
+            handleDay={handleDay}
+            day={day}
+          />
+        )}
+        {page === "Weekly" && (
+          <Weekly
             location={location}
             weather={weather}
             theme={theme}

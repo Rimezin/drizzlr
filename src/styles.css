@@ -33,8 +33,16 @@ button {
   background-color: #eff2f5 !important;
 }
 
+.bg-alt-light-nav {
+  background-color: #eff2f5e3 !important;
+}
+
 .bg-alt-dark {
   background-color: #1c2025 !important;
+}
+
+.bg-alt-dark-nav {
+  background-color: #181b20e3 !important;
 }
 
 .bg-alt-mid {
@@ -75,6 +83,33 @@ button {
 .boxshadow {
   /* offset-x | offset-y | blur-radius | spread-radius | color */
   box-shadow: 0px 0.2rem 0.3rem 0.1rem rgba(0, 0, 0, 0.1);
+}
+
+.overlay-div {
+  background-color: rgba(79, 97, 116, 0.518);
+  width: 28rem;
+  max-width: 60%;
+  height: 32rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center !important;
+  color: white !important;
+}
+
+.overlay-div > svg {
+  fill: white !important;
+}
+
+#overlay-inner {
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+}
+
+#overlay {
+  backdrop-filter: blur(10px);
 }
 
 .outline {
@@ -286,7 +321,7 @@ main {
   padding: 1rem;
   position: fixed;
   top: 0;
-  z-index: 1;
+  z-index: 3;
   height: 2.5rem;
   width: 100%;
 }
@@ -309,14 +344,23 @@ main {
 .logo-container {
   display: flex;
   margin-right: auto;
+  align-items: center;
   cursor: pointer;
+}
+
+.logo-container-overlay {
+  display: flex;
+  width: fit-content;
+  justify-content: center !important;
+  align-items: center;
+  padding: 1rem;
+  margin: 0 auto 0 auto;
 }
 
 .logo {
   font-size: 1.6rem;
   font-family: "Quicksand";
   font-weight: 700;
-  margin-right: auto;
   user-select: none;
 }
 
@@ -328,6 +372,27 @@ main {
   margin-right: 0.7rem;
 }
 
+/* PAGE NAV */
+.page-nav {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  top: 4rem;
+  z-index: 2;
+  height: 2.5rem;
+  width: 100%;
+  margin: 0 0 0 -0.5rem;
+  padding: 0.5rem;
+  backdrop-filter: blur(4px);
+  justify-content: center;
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2); */
+}
+
+.back-button {
+  display: flex;
+  margin-right: auto;
+}
+
 /* DRAWER */
 
 .menu-drawer {
@@ -337,7 +402,7 @@ main {
 /* FOOTER */
 .footerbar {
   margin: -8px -8px 0px -8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -389,6 +454,11 @@ main {
 
 /* PAGES */
 
+.page-container {
+  margin-top: 8rem;
+  /* background-color: blue; */
+}
+
 .page-home {
   display: flex;
   flex-direction: row;
@@ -397,10 +467,47 @@ main {
 .page-daily {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+}
+
+.page-hourly {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-title-container {
+  display: flex;
+  flex-direction: column;
+  margin-right: auto;
 }
 
 .page-title {
-  text-align: left;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.page-sub-title {
+  text-align: center;
+  font-size: 1rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .page-title-container {
+    flex-direction: row;
+    margin-right: auto;
+    align-items: center;
+  }
+
+  .page-title {
+    font-size: 2rem;
+  }
+
+  .page-sub-title {
+    margin-left: 0.5rem;
+    font-size: 2rem;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -572,11 +679,6 @@ main {
   justify-content: right;
 }
 
-.back-button {
-  display: flex;
-  justify-content: start;
-}
-
 .attribute {
   color: gray;
   font-size: 0.5rem;
@@ -604,4 +706,66 @@ main {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+/* HOURLY */
+
+.hour-card {
+  padding: 0.7rem !important;
+  font-size: 0.8rem;
+  margin: 0.5rem 0 0.5rem 0 !important;
+  width: 100% !important;
+  max-width: 14rem;
+  height: 2rem;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.hour-page-card {
+  padding: 1rem !important;
+  font-size: 1.2rem;
+  margin: 0.75rem 0 0.75rem 0 !important;
+  width: 30rem !important;
+  max-width: 85%;
+  height: fit-content;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.hourly-contents {
+  margin: 0 -0.5rem -0.5rem -0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hourly-card-hour {
+  font-size: 1.1rem;
+}
+
+.hourly-page-hour {
+  font-size: 1.5rem;
+}
+
+.hourly-card-temps {
+  display: flex;
+  flex-direction: column;
+}
+
+.hourly-page-temps {
+  display: flex;
+  flex-direction: column;
+}
+
+.hour-icon {
+  height: 5rem;
+  filter: drop-shadow(0px 1px 2px rgb(0 0 0 / 0.2));
+}
+
+.hour-daybreak {
+  width: 100%;
+  max-width: 30rem;
 }

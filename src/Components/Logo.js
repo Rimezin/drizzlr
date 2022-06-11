@@ -4,12 +4,12 @@ import React from "react";
 export default function Logo(props) {
   const { theme, handlePage } = props;
   return (
-    <div id="Home" name="Home" onClick={handlePage} className="logo-container">
+    <>
       <Icon
         icon="rain"
         size="large"
         className="logo-icon no-pointer"
-        style={{ height: "32px", width: "32px" }}
+        style={{ height: "2rem", width: "2rem" }}
       />
       <div className="logo no-pointer">
         Drizzlr
@@ -20,6 +20,6 @@ export default function Logo(props) {
           .app
         </span>
       </div>
-    </div>
+    </>
   );
 }

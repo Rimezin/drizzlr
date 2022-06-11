@@ -8,18 +8,24 @@ export default function Header(props) {
 
   //// MAIN RENDER ////
   return (
-    <>
+    <div
+      className="menubar"
+      style={{
+        backgroundColor: theme === "light" ? "#eff2f5" : "#1c2025",
+      }}
+    >
       <div
-        className="menubar"
-        style={{
-          backgroundColor: theme === "light" ? "#eff2f5" : "#1c2025",
-        }}
+        id="Home"
+        name="Home"
+        onClick={handlePage}
+        className="logo-container"
       >
         <Logo theme={theme} handlePage={handlePage} />
-        <Button onClick={handleDrawer} style={{ marginRight: "1.5rem" }}>
-          <Icon icon="menu" />
-        </Button>
       </div>
-    </>
+
+      <Button onClick={handleDrawer} style={{ marginRight: "1.5rem" }}>
+        <Icon icon="menu" />
+      </Button>
+    </div>
   );
 }

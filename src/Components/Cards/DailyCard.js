@@ -10,56 +10,6 @@ export default function DailyCard(props) {
     more: <Icon icon="double-chevron-right" intent="default" size="small" />,
   };
 
-  const tooltip = {
-    windDirection: <span>{weather.current.wind_deg}&deg;</span>,
-  };
-
-  /**
-  {
-    "dt": 1654624800,
-    "sunrise": 1654600505,
-    "sunset": 1654652633,
-    "moonrise": 1654626480,
-    "moonset": 1654585440,
-    "moon_phase": 0.25,
-    "temp": {
-        "day": 84,
-        "min": 70,
-        "max": 85,
-        "night": 76,
-        "eve": 83,
-        "morn": 70,
-        "units": "F"
-    },
-    "feels_like": {
-        "day": 89,
-        "night": 77,
-        "eve": 88,
-        "morn": 72
-    },
-    "pressure": 1010,
-    "humidity": 66,
-    "dew_point": 295.04,
-    "wind_speed": 15,
-    "wind_deg": 96,
-    "wind_gust": 27,
-    "weather": [
-        {
-            "id": 501,
-            "main": "Rain",
-            "description": "moderate rain",
-            "icon": "10d"
-        }
-    ],
-    "clouds": 87,
-    "pop": 1,
-    "rain": 3.38,
-    "uvi": 10.11,
-    "wind_units": "mph",
-    "wind_direction": "E"
-}
-*/
-
   // Render Day Elements //
   const dayElements = weather.daily.slice(1, 4).map((day, index) => (
     <div
@@ -132,8 +82,8 @@ export default function DailyCard(props) {
         <span>3-Day Outlook</span>
         <div className="button-header-container">
           <Button
-            name="Daily"
-            id="Daily"
+            name="Weekly"
+            id="Weekly"
             variant="light"
             className="button-icon"
             onClick={handlePage}
