@@ -78,6 +78,15 @@ hourly.weather.icon Weather icon id. How to get icons2
         </div>
       );
     }
+
+    // Precipitation amount, where available //
+    let precip = null;
+    if (hour.rain["1hr"] > 0) {
+      precip = hour.rain["1hr"] + weather.volume_units;
+    } else if (hour.snow["1hr"] > 0) {
+      precip = hour.snow["1hr"] + weather.volume_units;
+    }
+
     return (
       <>
         {dayBreak}
@@ -114,7 +123,8 @@ hourly.weather.icon Weather icon id. How to get icons2
               size="large"
               style={{ fill: "#4cbcec", width: "1.25rem", height: "1.25rem" }}
             />
-            {Math.round(hour.pop * 10) / 10}%
+            {Math.floor(hour.pop * 100)}%<br />
+            <span>{precip}</span>
           </span>
           <div
             className="wind-day-direction"

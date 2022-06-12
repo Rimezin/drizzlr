@@ -4,6 +4,7 @@ import convertTemp from "./convertTemp";
 import convertVolume from "./convertVolume";
 import getWindDirection from "./getWindDirection";
 import getWindSpeed from "./getWindSpeed";
+import getSolarNoon from "./getSolarNoon";
 
 export default function convertWeatherUnits(
   weatherObj,
@@ -24,6 +25,7 @@ export default function convertWeatherUnits(
     console.log(`>> Compiling new daily object #${index}`);
     return {
       ...prevDay,
+      solarnoon: getSolarNoon(prevDay.sunrise, prevDay.sunset),
       temp: {
         day: convertTemp(prevTempUnits, prevDay.temp.day, newTempUnits),
         min: convertTemp(prevTempUnits, prevDay.temp.min, newTempUnits),

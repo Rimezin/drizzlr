@@ -487,7 +487,11 @@ export default function App() {
     contents: (
       <div className="overlay-div">
         <div className="logo-container-overlay">
-          <Logo theme={theme} handlePage={handlePage} />
+          <Logo
+            theme={theme}
+            handlePage={handlePage}
+            style={{ fill: "white" }}
+          />
         </div>
         <br />
         <p>

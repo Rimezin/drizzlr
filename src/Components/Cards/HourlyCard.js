@@ -101,7 +101,7 @@ hourly.weather.icon Weather icon id. How to get icons2
           size="small"
           style={{ fill: "#4cbcec", width: "0.7rem", height: "0.7rem" }}
         />
-        {hour.pop}%
+        {Math.floor(hour.pop * 100)}%
       </span>
     </Card>
   ));

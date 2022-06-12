@@ -1,8 +1,8 @@
-import { Icon } from "@joshdschneider/formation";
 import React from "react";
+import { Icon } from "@joshdschneider/formation";
 
 export default function Logo(props) {
-  const { theme, handlePage } = props;
+  const { theme } = props;
   return (
     <>
       <Icon

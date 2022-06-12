@@ -5,6 +5,8 @@ import convertDate from "../Hooks/convertDate";
 import getArrow from "../Hooks/getArrow";
 import getWiggle from "../Hooks/getWiggle";
 import convertTime from "../Hooks/convertTime";
+import { Chart } from "react-chartjs-2";
+import { Chart as ChartJS } from "chart.js/auto";
 
 export default function Day(props) {
   const { location, weather, theme, handlePage, day } = props;
@@ -71,6 +73,73 @@ export default function Day(props) {
   }, [weather.daily[day].wind_direction, weather.daily[day].wind_speed]);
 
   // Time Chart //
+  const [timeChartData, setTimeChartData] = React.useState(() => {
+    let thisDay = new Date(weather.daily[day].dt / 1000).getHours();
+    let xLabel = new Array(24);
+    for (let a = 0; a < xLabel.length; a++) {
+      let newLabel = thisDay + a;
+      xLabel[a] = convertTime(newLabel, weather.time_units);
+    }
+
+    return {
+      // labels: [
+      //   convertTime(weather.daily[day].sunrise, weather.time_units),
+      //   convertTime(weather.daily[day].solarnoon, weather.time_units),
+      //   convertTime(weather.daily[day].sunset, weather.time_units),
+      // ],
+      // labels: xLabel,
+      datasets: [
+        {
+          type: "line",
+          label: "Time",
+          data: [
+            {
+              x: convertTime(weather.daily[day].sunrise, weather.time_units),
+              y: 0,
+            },
+            {
+              x: convertTime(weather.daily[day].solarnoon, weather.time_units),
+              y: 1,
+            },
+            {
+              x: convertTime(weather.daily[day].sunset, weather.time_units),
+              y: 0,
+            },
+          ],
+          cubicInterpolationMode: "monotone",
+          tension: 0.4,
+          pointRadius: 6,
+          pointHitRadius: 6,
+          borderColor: "#4cbcec",
+          pointBackgroundColor: "#4cbcec",
+        },
+      ],
+    };
+  });
+
+  const chartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        display: false,
+      },
+    },
+    scales: {
+      xAxis: {
+        grid: {
+          display: true,
+        },
+      },
+      yAxis: {
+        grid: {
+          display: false,
+        },
+        ticks: {
+          display: false,
+        },
+      },
+    },
+  };
 
   return (
     <>
@@ -159,36 +228,40 @@ export default function Day(props) {
                 <span className="text-blue">Precipitation Chance:</span>{" "}
                 {Math.floor(weather.daily[day].pop * 100)}%
               </div>
-              <div>
-                <Icon
-                  icon="tint"
-                  size="large"
-                  style={{
-                    height: "1.25rem",
-                    width: "1.25rem",
-                    fill: "#4cbcec",
-                    marginRight: ".25rem",
-                  }}
-                />
-                <span className="text-blue">Expected Rain:</span>{" "}
-                {weather.daily[day].rain}
-                {weather.daily[day].volume_units}
-              </div>
-              <div>
-                <Icon
-                  icon="tint"
-                  size="large"
-                  style={{
-                    height: "1.25rem",
-                    width: "1.25rem",
-                    fill: "#4cbcec",
-                    marginRight: ".25rem",
-                  }}
-                />
-                <span className="text-blue">Expected Snow:</span>{" "}
-                {weather.daily[day].snow}
-                {weather.daily[day].volume_units}
-              </div>
+              {weather.daily[day].rain !== 0 && (
+                <div>
+                  <Icon
+                    icon="tint"
+                    size="large"
+                    style={{
+                      height: "1.25rem",
+                      width: "1.25rem",
+                      fill: "#4cbcec",
+                      marginRight: ".25rem",
+                    }}
+                  />
+                  <span className="text-blue">Expected Rain:</span>{" "}
+                  {weather.daily[day].rain}
+                  {weather.daily[day].volume_units}
+                </div>
+              )}
+              {weather.daily[day].snow !== 0 && (
+                <div>
+                  <Icon
+                    icon="snowflake"
+                    size="large"
+                    style={{
+                      height: "1.25rem",
+                      width: "1.25rem",
+                      fill: "#4cbcec",
+                      marginRight: ".25rem",
+                    }}
+                  />
+                  <span className="text-blue">Expected Snow:</span>{" "}
+                  {weather.daily[day].snow}
+                  {weather.daily[day].volume_units}
+                </div>
+              )}
             </div>
             <div
               className="day-page-tertiary"
@@ -297,14 +370,44 @@ export default function Day(props) {
           >
             <h4>Astronomical:</h4>
             <div>
-              <div>
+              {/* <div>
                 Sunrise:{" "}
                 {convertTime(weather.daily[day].sunrise, weather.time_units)}
               </div>
               <div>
                 Sunset:{" "}
                 {convertTime(weather.daily[day].sunset, weather.time_units)}
+              </div> */}
+              <Chart data={timeChartData} options={chartOptions} />
+              <div>
+                Moonrise:{" "}
+                {convertTime(weather.daily[day].moonrise, weather.time_units)}
               </div>
+              <div>
+                Moonset:{" "}
+                {convertTime(weather.daily[day].moonset, weather.time_units)}
+              </div>
+              <div>
+                Barometric Pressure: {weather.daily[day].pressure} (hPa)
+              </div>
+            </div>
+          </Card>
+          <Card
+            className={`day-details-card ${
+              theme === "dark" ? "bg-alt-dark" : "bg-alt-mid"
+            }`}
+          >
+            <h4>Astronomical:</h4>
+            <div>
+              {/* <div>
+                Sunrise:{" "}
+                {convertTime(weather.daily[day].sunrise, weather.time_units)}
+              </div>
+              <div>
+                Sunset:{" "}
+                {convertTime(weather.daily[day].sunset, weather.time_units)}
+              </div> */}
+              <Chart data={timeChartData} options={chartOptions} />
               <div>
                 Moonrise:{" "}
                 {convertTime(weather.daily[day].moonrise, weather.time_units)}
