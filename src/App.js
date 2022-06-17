@@ -210,7 +210,7 @@ export default function App() {
       url = `https://api.openweathermap.org/geo/1.0/zip?zip=${input}&limit=1&appid=${process.env.REACT_APP_API_KEY}`;
     } else {
       // input is NOT zip //
-      url = `http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=5&appid=${process.env.REACT_APP_API_KEY}`;
+      url = `https://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=5&appid=${process.env.REACT_APP_API_KEY}`;
     }
 
     console.log(`GETLOCATION | Input: ${input}`);

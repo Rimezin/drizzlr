@@ -35,7 +35,7 @@ export default function Footer(props) {
         </div>
         <small className="attribute">Powered by Open Weather API</small>
       </div>,
-      `What's new in v0.1.0?`,
+      `What's new in v0.1.1?`,
       "rocket"
     );
   }
@@ -75,7 +75,7 @@ export default function Footer(props) {
           style={{ color: theme === "light" ? "lightgray" : "dimgray" }}
           className="text-hidden"
         >
-          .1.0
+          .1.1
         </span>
       </div>
       <Tooltip selector="#version" content={tooltip.version} />
