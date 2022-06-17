@@ -392,21 +392,13 @@ export default function Day(props) {
               </div>
             </div>
           </Card>
-          <Card
+          {/* <Card
             className={`day-details-card ${
               theme === "dark" ? "bg-alt-dark" : "bg-alt-mid"
             }`}
           >
             <h4>Astronomical:</h4>
             <div>
-              {/* <div>
-                Sunrise:{" "}
-                {convertTime(weather.daily[day].sunrise, weather.time_units)}
-              </div>
-              <div>
-                Sunset:{" "}
-                {convertTime(weather.daily[day].sunset, weather.time_units)}
-              </div> */}
               <Chart data={timeChartData} options={chartOptions} />
               <div>
                 Moonrise:{" "}
@@ -420,7 +412,7 @@ export default function Day(props) {
                 Barometric Pressure: {weather.daily[day].pressure} (hPa)
               </div>
             </div>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </>

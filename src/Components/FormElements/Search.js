@@ -20,7 +20,7 @@ export default function Search(props) {
         value={value}
         onChange={handleChange}
         style={{
-          maxWidth: "3.5rem",
+          maxWidth: "8rem",
           textAlign: "center",
           marginRight: "0.5rem",
         }}

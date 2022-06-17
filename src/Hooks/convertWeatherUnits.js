@@ -17,12 +17,12 @@ export default function convertWeatherUnits(
   prevVolumeUnits,
   newVolumeUnits
 ) {
-  console.log(`CONVERTING ALL WEATHER UNITS |`);
+  console.log(`%cCONVERTING ALL WEATHER UNITS`, "color: green;");
 
   // Convert Daily //
-  console.log(`> Converting daily...`);
+  console.log(`%c> Converting daily...`, "color: royalblue;");
   const newDaily = weatherObj.daily.map((prevDay, index) => {
-    console.log(`>> Compiling new daily object #${index}`);
+    console.log(`%c>> Compiling new daily object #${index}`, "color: skyblue");
     return {
       ...prevDay,
       solarnoon: getSolarNoon(prevDay.sunrise, prevDay.sunset),
@@ -57,9 +57,12 @@ export default function convertWeatherUnits(
   });
 
   // Convert Hourly //
-  console.log(`> Converting hourly...`);
+  console.log(`%c> Converting hourly...`, "color: royalblue;");
   const newHourly = weatherObj.hourly.map((prevHour, index) => {
-    console.log(`>> Compiling new hourly object #${index}`);
+    console.log(
+      `%c>> Compiling new hourly object #${index}`,
+      "color: skyblue;"
+    );
     let rain = prevHour.rain;
     rain = rain === undefined ? null : rain["1h"];
     let snow = prevHour.snow;
@@ -88,7 +91,7 @@ export default function convertWeatherUnits(
   });
 
   // Construct New Object //
-  console.log(`> Constructing new object...`);
+  console.log(`%c> Constructing new object...`, "color: royalblue;");
 
   let rain = weatherObj.current.rain;
   rain = rain === undefined ? null : rain["1h"];

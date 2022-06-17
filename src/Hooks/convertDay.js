@@ -33,6 +33,6 @@ export default function convertDay(unixTime, isShort) {
     day = day.substring(0, 3);
   }
 
-  console.log(`CONVERTING DAY OF WEEK || ${day}`);
+  console.log(`%cCONVERTING DAY OF WEEK || ${day}`, "color: lime; ");
   return day;
 }

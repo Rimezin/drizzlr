@@ -134,7 +134,9 @@ export default function MainCard(props) {
       <div className="card-contents">
         <div className="main-title">
           <h4>
-            {location.name}, {location.country}
+            {`${location.name}${
+              location.state !== undefined ? ", " + location.state : ""
+            }${location.country !== undefined ? ", " + location.country : ""}`}
           </h4>
           {alerts()}
         </div>

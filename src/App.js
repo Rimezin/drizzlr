@@ -5,18 +5,22 @@ import axios from "axios";
 // Hooks //
 import useStickyState from "./Hooks/useStickyState";
 import convertWeatherUnits from "./Hooks/convertWeatherUnits";
+import useWindowSize from "./Hooks/useWindowSize";
 
 // Components //
-import Header from "./Components/Header";
-import Footer from "./Components/Footer";
 import {
   toast,
   Toast,
   Drawer,
   Modal,
   ThemeProvider,
-  Button,
 } from "@joshdschneider/formation";
+import Header from "./Components/Header";
+import Footer from "./Components/Footer";
+import Layover from "./Components/Layover";
+import Timer from "./Components/Timer";
+import SearchResults from "./Components/FormElements/SearchResults";
+import Logo from "./Components/Logo";
 
 // Pages //
 import Home from "./Pages/Home";
@@ -24,9 +28,8 @@ import Radar from "./Pages/Radar";
 import DrawerContent from "./Pages/DrawerContent";
 import Weekly from "./Pages/Weekly";
 import Day from "./Pages/Day";
-import Layover from "./Components/Layover";
-import Logo from "./Components/Logo";
 import Hourly from "./Pages/Hourly";
+import Prompt from "./Components/Prompt";
 
 ////////////////////////////////
 /////////// MAIN APP ///////////
@@ -34,6 +37,15 @@ import Hourly from "./Pages/Hourly";
 export default function App() {
   //// THEME PROVIDER ////
   const [theme, setTheme] = useStickyState("light", "drizzlr_theme");
+
+  const [width, height] = useWindowSize();
+  React.useEffect(() => {
+    // Console log for science //
+    console.log(
+      `%c~~ WINDOW SIZE ~~ w:${width}, h:${height}`,
+      "color: orange;"
+    );
+  }, [width, height]);
 
   function toggleTheme() {
     if (theme === "light") {
@@ -67,7 +79,6 @@ export default function App() {
     }));
 
     console.log("MODAL | Opening modal...");
-    console.log(modal);
   }
 
   // Close Modal //
@@ -76,6 +87,31 @@ export default function App() {
       ...modal,
       isOpen: false,
     }));
+  }
+
+  //// PROMPTS ////
+  const [prompt, setPrompt] = React.useState({
+    isOpen: false,
+    icon: "cross",
+    title: "Some words here.",
+    content: "Some larger contents go here.",
+  });
+
+  function openPrompt(c, t, i) {
+    let icon = i === null || i === undefined ? "info-sign" : i;
+    let title = t === null || t === undefined ? "Information" : t;
+    let content =
+      c === null || c === undefined ? "Prompt text would go here." : c;
+
+    setPrompt((prompt) => ({
+      ...prompt,
+      isOpen: true,
+      icon: icon,
+      title: title,
+      content: content,
+    }));
+
+    console.log("MODAL | Opening modal...");
   }
 
   //// TOASTS ////
@@ -151,6 +187,7 @@ export default function App() {
       lat: 40.9411,
       lon: -75.8306,
       country: "US",
+      state: "PA",
     },
     "drizzlr-location"
   );
@@ -165,18 +202,18 @@ export default function App() {
   }
 
   function getLocation(input) {
-    handleDrawer();
     setSearching(true);
+    handleDrawer();
+    const isZip = validateZip(input);
     let url = "";
-    if (validateZip(input)) {
-      console.log(`GETLOCATION | Input: ${input}`);
+    if (isZip) {
       url = `https://api.openweathermap.org/geo/1.0/zip?zip=${input}&limit=1&appid=${process.env.REACT_APP_API_KEY}`;
     } else {
-      alert("Zip Codes Only!");
-      console.log(`GETLOCATION | ERROR: Input was not a zip code`);
-      setSearching(false);
-      return;
+      // input is NOT zip //
+      url = `http://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=5&appid=${process.env.REACT_APP_API_KEY}`;
     }
+
+    console.log(`GETLOCATION | Input: ${input}`);
 
     if (url !== "") {
       console.log(`
@@ -187,7 +224,7 @@ export default function App() {
         .get(url)
         .catch((error) => {
           console.log(`>> Error ${error}`);
-          openModal(
+          openPrompt(
             `There was an error retrieving weather info.
             
             Error:
@@ -198,14 +235,57 @@ export default function App() {
           setSearching(false);
         })
         .then((res) => {
-          setLocation(res.data);
-          console.log(`
+          if (isZip) {
+            setLocation(res.data);
+            console.log(`
             >> Success!
             >> ${JSON.stringify(res.data)}
             >> Setting object to location state
           `);
-          setSearching(false);
-          showToast(`Set location to ${input}!`, "success", "tick");
+            setSearching(false);
+            showToast(`Set location to ${input}!`, "success", "tick");
+          } else if (res.data.length === 0) {
+            openPrompt(
+              `There were no results for that query.`,
+              "Error",
+              "error"
+            );
+            setSearching(false);
+            setLocation({
+              zip: "18255",
+              name: "Weatherly",
+              lat: 40.9411,
+              lon: -75.8306,
+              country: "US",
+              state: "PA",
+            });
+          } else if (res.data.length === 1) {
+            setLocation(res.data[0]);
+            console.log(`
+            >> Success!
+            >> ${JSON.stringify(res.data[0])}
+            >> Setting object to location state
+          `);
+            setSearching(false);
+            showToast(
+              `Set location to ${res.data[0].name}!`,
+              "success",
+              "tick"
+            );
+          } else if (res.data.length > 1) {
+            openPrompt(
+              <SearchResults
+                results={res.data}
+                setLocation={setLocation}
+                setPrompt={setPrompt}
+                handleDrawer={handleDrawer}
+              />,
+              "Search Results",
+              "info-circle"
+            );
+            setSearching(false);
+          }
+          console.log(location);
         });
     }
   }
@@ -397,7 +477,6 @@ export default function App() {
     console.log("WEATHER | Axios\n>> Attempting Get");
     axios
       .get(
-        // `https://api.openweathermap.org/data/2.5/weather?lat=${location.lat}&lon=${location.lon}&appid=${process.env.REACT_APP_API_KEY}`
         `https://api.openweathermap.org/data/2.5/onecall?lat=${location.lat}&lon=${location.lon}&exclude=minutely&appid=${process.env.REACT_APP_API_KEY}`
       )
       .catch((error) => {
@@ -459,19 +538,6 @@ export default function App() {
     }
   }
 
-  // //// MAP ////
-  // function getMap() {
-  //   let map = L.map("map").setView([location.lat, location.lon], 13);
-
-  //   L.tileLayer(
-  //     `http://maps.openweathermap.org/maps/2.0/weather/PA0/{z}/{x}/{y}?fill_bound=true&appid=${process.env.REACT_APP_API_KEY}`
-  //   ).addTo(map);
-
-  //   return map;
-  // }
-
-  // const [map, setMap] = React.useState(getMap());
-
   //// Initial Get ////
   React.useEffect(() => {
     getWeather();
@@ -484,27 +550,10 @@ export default function App() {
     focus: true,
     closeOnEscapeKey: true,
     closeOnOuterClick: true,
-    contents: (
-      <div className="overlay-div">
-        <div className="logo-container-overlay">
-          <Logo
-            theme={theme}
-            handlePage={handlePage}
-            style={{ fill: "white" }}
-          />
-        </div>
-        <br />
-        <p>
-          This data is stale. Click the refresh button below to get a new batch!
-        </p>
-        <br />
-        <Button onClick={handleOverlayRefresh}>Refresh</Button>
-      </div>
-    ),
+    contents: <div>Overlay</div>,
   });
 
-  // Timer //
-  const [seconds, setSeconds] = React.useState(600);
+  // Timer & Overlay //
 
   function handleOverlay(object) {
     setOverlay((prevOverlay) => ({
@@ -513,32 +562,20 @@ export default function App() {
     }));
   }
 
-  function handleOverlayRefresh(e) {
-    handleRefresh(e);
-    handleOverlay({
-      isOpen: false,
-    });
-    setSeconds(600);
-    console.log("Overlay Refreshed !!");
-  }
+  // const [timer, setTimer] = useTimer(600, () => {
+  //   handleOverlay({
+  //     isOpen: true,
+  //   });
+  // });
 
-  React.useEffect(() => {
-    let myInterval = setInterval(() => {
-      if (seconds > 0) {
-        setSeconds(seconds - 1);
-        console.log(`$Timer: ${seconds}`);
-      } else if (seconds === 0) {
-        clearInterval(myInterval);
-        console.log(`$Time's up, opening overlay!'`);
-        handleOverlay({
-          isOpen: true,
-        });
-      }
-    }, 1000);
-    return () => {
-      clearInterval(myInterval);
-    };
-  }, [seconds]);
+  // function handleOverlayRefresh(e) {
+  //   handleRefresh(e);
+  //   handleOverlay({
+  //     isOpen: false,
+  //   });
+  //   setTimer(600);
+  //   console.log("Overlay Refreshed !!");
+  // }
 
   return (
     <ThemeProvider theme={theme}>
@@ -550,6 +587,8 @@ export default function App() {
       >
         <div>{modal.content}</div>
       </Modal>
+
+      <Prompt prompt={prompt} setPrompt={setPrompt} theme={theme} />
 
       <Toast position="bottom" timeout={8000} style={{ zIndex: "9999" }} />
 
@@ -578,6 +617,12 @@ export default function App() {
           volumeUnits={volumeUnits}
           handleVolumeUnits={handleVolumeUnits}
         />
+        <Timer
+          handleRefresh={handleRefresh}
+          handleOverlay={handleOverlay}
+          handlePage={handlePage}
+          theme={theme}
+        />
       </Drawer>
 
       <header>
@@ -586,6 +631,8 @@ export default function App() {
           toggleTheme={toggleTheme}
           handleDrawer={handleDrawer}
           handlePage={handlePage}
+          page={page}
+          width={width}
         />
       </header>
 
@@ -603,7 +650,14 @@ export default function App() {
             handleDay={handleDay}
           />
         )}
-        {page === "Radar" && <Radar />}
+        {page === "Radar" && (
+          <Radar
+            location={location}
+            theme={theme}
+            handlePage={handlePage}
+            weather={weather}
+          />
+        )}
         {page === "Hourly" && (
           <Hourly
             location={location}

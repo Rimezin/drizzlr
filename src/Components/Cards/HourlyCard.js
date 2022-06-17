@@ -3,11 +3,7 @@ import React from "react";
 import convertTime from "../../Hooks/convertTime";
 
 export default function HourlyCard(props) {
-  const { weather, theme, handlePage, handleDay } = props;
-
-  const icons = {
-    more: <Icon icon="double-chevron-right" intent="default" size="small" />,
-  };
+  const { weather, theme, handlePage } = props;
 
   /**
 
@@ -62,49 +58,59 @@ hourly.weather.icon Weather icon id. How to get icons2
 }
 */
 
+  const [hourElements, setHourElements] = React.useState("");
+
   // Render Hour Elements //
-  const hourElements = weather.hourly.slice(1, 4).map((hour, index) => (
-    <Card
-      key={`hour${index}`}
-      className={`hour-card ${theme === "dark" ? "bg-alt-dark" : "bg-alt-mid"}`}
-    >
-      <span className="hourly-card-hour">
-        {convertTime(
+  React.useEffect(() => {
+    setHourElements(
+      weather.hourly.slice(1, 4).map((hour, index) => {
+        const hourTime = convertTime(
           weather.hourly[weather.hourly.indexOf(hour)].dt,
           weather.time_units,
           true
-        )}
-      </span>
-      <img
-        src={`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`}
-        className="day-icon"
-        alt="weather icon"
-        style={{ margin: ".5rem" }}
-      />
-      <div className="hourly-card-temps">
-        <span>
-          <Icon
-            icon="heart"
-            intent="default"
-            size="small"
-            style={{ fill: "#ff5db4", width: "0.7rem", height: "0.7rem" }}
-          />
-          &nbsp;
-          {hour.feels_like}&deg;{hour.temp_units}
-        </span>
-        <span style={{ color: "gray" }}>{hour.weather[0].main}</span>
-      </div>
-      <span style={{ marginLeft: "1rem", color: "#4cbcec" }}>
-        <Icon
-          icon="tint"
-          intent="default"
-          size="small"
-          style={{ fill: "#4cbcec", width: "0.7rem", height: "0.7rem" }}
-        />
-        {Math.floor(hour.pop * 100)}%
-      </span>
-    </Card>
-  ));
+        );
+
+        return (
+          <Card
+            key={`hour${index}`}
+            className={`hour-card ${
+              theme === "dark" ? "bg-alt-dark" : "bg-alt-mid"
+            }`}
+          >
+            <span className="hourly-card-hour">{hourTime}</span>
+            <img
+              src={`http://openweathermap.org/img/wn/${hour.weather[0].icon}@2x.png`}
+              className="day-icon"
+              alt="weather icon"
+              style={{ margin: ".5rem" }}
+            />
+            <div className="hourly-card-temps">
+              <span>
+                <Icon
+                  icon="heart"
+                  intent="default"
+                  size="small"
+                  style={{ fill: "#ff5db4", width: "0.7rem", height: "0.7rem" }}
+                />
+                &nbsp;
+                {hour.feels_like}&deg;{hour.temp_units}
+              </span>
+              <span style={{ color: "gray" }}>{hour.weather[0].main}</span>
+            </div>
+            <span style={{ marginLeft: "1rem", color: "#4cbcec" }}>
+              <Icon
+                icon="tint"
+                intent="default"
+                size="small"
+                style={{ fill: "#4cbcec", width: "0.7rem", height: "0.7rem" }}
+              />
+              {Math.floor(hour.pop * 100)}%
+            </span>
+          </Card>
+        );
+      })
+    );
+  }, [weather]);
 
   return (
     <Card style={{ width: "18rem", maxWidth: "76%" }} interactive={true}>

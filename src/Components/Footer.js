@@ -16,8 +16,11 @@ export default function Footer(props) {
       <div>
         <div>
           <p>
-            Added hourly card, corresponding hourly page, and fixed lots of
-            minor things.
+            Added maps! Admittedly, they're not the best... but they get the job
+            done. Also added menu links at the top, as well as added additional
+            functionality to the location search. You can now look for zip codes
+            AND a place by name - which allows for international searching. I'm
+            sure this will improve in the future.
           </p>
           <br />
         </div>
@@ -32,7 +35,7 @@ export default function Footer(props) {
         </div>
         <small className="attribute">Powered by Open Weather API</small>
       </div>,
-      `What's new in v0.0.8?`,
+      `What's new in v0.1.0?`,
       "rocket"
     );
   }
@@ -72,7 +75,7 @@ export default function Footer(props) {
           style={{ color: theme === "light" ? "lightgray" : "dimgray" }}
           className="text-hidden"
         >
-          .0.8
+          .1.0
         </span>
       </div>
       <Tooltip selector="#version" content={tooltip.version} />

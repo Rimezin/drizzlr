@@ -24,6 +24,9 @@ export default function convertDateTime(unixTime, format) {
 
   // Final result //
   let formatted = formattedDate + " " + formattedTime;
-  console.log(`>> Converting day/time from ${unixTime} to ${formatted}`);
+  console.log(
+    `%c>> Converting day/time from ${unixTime} to ${formatted}`,
+    "color: lime;"
+  );
   return formatted;
 }

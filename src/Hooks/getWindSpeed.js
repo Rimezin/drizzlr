@@ -1,6 +1,9 @@
 export default function (oldUnit, speed, newUnit) {
   if (oldUnit === null || newUnit === null) {
-    console.log("--> get wind speed was provided null units, so aborted.");
+    console.log(
+      "%c--> get wind speed was provided null units, so aborted.",
+      "color: gray;"
+    );
     return speed;
   }
 
@@ -54,7 +57,8 @@ export default function (oldUnit, speed, newUnit) {
     returnValue = Math.round(returnValue);
   }
   console.log(
-    `--> Converting windspeed from ${speed}${oldUnit} to ${returnValue}${newUnit}...`
+    `%c--> Converting windspeed from ${speed}${oldUnit} to ${returnValue}${newUnit}...`,
+    "color: lime;"
   );
   return returnValue;
 }

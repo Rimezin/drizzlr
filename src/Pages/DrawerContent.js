@@ -66,7 +66,7 @@ export default function DrawerContent(props) {
             pointerEvents: page === "Radar" ? "none" : null,
           }}
         >
-          Radar
+          Map
         </Button>
         <Button
           name="Hourly"

@@ -1,11 +1,17 @@
 export default function convertVolume(prevUnit, value, newUnit) {
   if (prevUnit === null || newUnit === null) {
-    console.log("--> convert volume was provided null units, so aborted.");
+    console.log(
+      "%c--> convert volume was provided null units, so aborted.",
+      "color: gray;"
+    );
     return value;
   }
 
   if (value === undefined || typeof value === "undefined" || value === null) {
-    console.log("--> convert volume was provided undefined value, so aborted.");
+    console.log(
+      "%c--> convert volume was provided undefined value, so aborted.",
+      "color: gray;"
+    );
     return 0;
   }
 
@@ -22,7 +28,8 @@ export default function convertVolume(prevUnit, value, newUnit) {
   // Round //
   newValue = Math.round((newValue + Number.EPSILON) * 100) / 100;
   console.log(
-    `--> Converting volume units ${value}${prevUnit} to ${newValue}${newUnit}`
+    `%c--> Converting volume units ${value}${prevUnit} to ${newValue}${newUnit}`,
+    "color: lime;"
   );
   return newValue;
 }

@@ -10,6 +10,9 @@ export default function convertDate(unixTime, isShort) {
   // Will display date/time in 10:30 format
   let formattedDate = month + "/" + day + year;
 
-  console.log(`CONVERTING DATE | ${unixTime} to ${formattedDate}`);
+  console.log(
+    `%cCONVERTING DATE | ${unixTime} to ${formattedDate}`,
+    "color: lime;"
+  );
   return formattedDate;
 }
