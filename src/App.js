@@ -1,5 +1,5 @@
 import React from "react";
-import axios from "axios";
+import axios, { Axios } from "axios";
 // import L from "leaflet";
 
 // Hooks //
@@ -195,6 +195,75 @@ export default function App() {
   // State for loading when search button is clicked //
   const [searching, setSearching] = React.useState(false);
 
+  const [geolocator, setGeolocator] = useStickyState(
+    true,
+    "drizzlr-geolocator"
+  );
+
+  // Current Location //
+  function showPosition(position) {
+    console.log(`
+        GETLOCATION | Axios
+        >> Attempting Get from auto location
+      `);
+
+    axios
+      .get(
+        `https://api.openweathermap.org/geo/1.0/reverse?lat=${position.coords.latitude}&lon=${position.coords.longitude}&limit=1&appid=${process.env.REACT_APP_API_KEY}`
+      )
+      .catch((error) => {
+        console.log(`>> Error ${error}`);
+        openPrompt(
+          `There was an error retrieving location info.
+          
+          Error:
+          ${error}`,
+          "Error",
+          "error"
+        );
+      })
+      .then((res) => {
+        setLocation(res.data[0]);
+        console.log(`
+            >> Success!
+            >> ${JSON.stringify(res.data[0])}
+            >> Setting object to location state
+          `);
+        showToast(
+          `Auto-set location to ${res.data[0].name}!`,
+          "success",
+          "tick"
+        );
+      });
+  }
+
+  function showError(error) {
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        openModal("You denied the request for Geolocation.");
+        break;
+      case error.POSITION_UNAVAILABLE:
+        openModal("Location information is unavailable.");
+        break;
+      case error.TIMEOUT:
+        openModal("The request to get your location timed out.");
+        break;
+      case error.UNKNOWN_ERROR:
+        openModal("An unknown error occurred.");
+        break;
+    }
+  }
+
+  function getGeoLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+      openModal(
+        "Geolocation is not supported by this browser. Please search for your location manually or use a modern browser."
+      );
+    }
+  }
+
   // Zip Code Function //
   function validateZip(zip) {
     const isValidZip = /(^\d{5}$)|(^\d{5}-\d{4}$)/.test(zip);
@@ -225,7 +294,7 @@ export default function App() {
         .catch((error) => {
           console.log(`>> Error ${error}`);
           openPrompt(
-            `There was an error retrieving weather info.
+            `There was an error retrieving location info.
             
             Error:
             ${error}`,
@@ -577,6 +646,13 @@ export default function App() {
   //   console.log("Overlay Refreshed !!");
   // }
 
+  React.useEffect(() => {
+    if (geolocator === true) {
+      handleDrawer();
+      getGeoLocation();
+    }
+  }, [geolocator]);
+
   return (
     <ThemeProvider theme={theme}>
       <Modal
@@ -616,6 +692,10 @@ export default function App() {
           toggleTheme={toggleTheme}
           volumeUnits={volumeUnits}
           handleVolumeUnits={handleVolumeUnits}
+          geolocator={geolocator}
+          setGeolocator={setGeolocator}
+          setLocation={setLocation}
+          handleDrawer={handleDrawer}
         />
         <Timer
           handleRefresh={handleRefresh}

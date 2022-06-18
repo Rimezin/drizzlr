@@ -1,4 +1,4 @@
-import { Button, Icon } from "@joshdschneider/formation";
+import { Button, Icon, Switch } from "@joshdschneider/formation";
 import React from "react";
 import Search from "../Components/FormElements/Search";
 import ThemeToggle from "../Components/FormElements/ThemeToggle";
@@ -6,6 +6,7 @@ import TempUnits from "../Components/FormElements/TempUnits";
 import UnitsWind from "../Components/FormElements/UnitsWind";
 import UnitsTime from "../Components/FormElements/UnitsTime";
 import UnitsVolume from "../Components/FormElements/UnitsVolume";
+import SavedLocations from "../Components/SavedLocations";
 
 export default function DrawerContent(props) {
   const {
@@ -14,6 +15,8 @@ export default function DrawerContent(props) {
     searching,
     location,
     getLocation,
+    setLocation,
+    handleDrawer,
     tempUnits,
     windUnits,
     timeUnits,
@@ -24,6 +27,8 @@ export default function DrawerContent(props) {
     toggleTheme,
     volumeUnits,
     handleVolumeUnits,
+    geolocator,
+    setGeolocator,
   } = props;
 
   const selected = <Icon icon="arrow-left" intent="default" size="small" />;
@@ -34,6 +39,16 @@ export default function DrawerContent(props) {
     weekly: <Icon icon="calendar" intent="default" size="regular" />,
     hourly: <Icon icon="time" intent="default" size="regular" />,
   };
+
+  function handleGeolocator() {
+    setGeolocator((geo) => !geo);
+  }
+
+  const [savedSwitch, setSavedSwitch] = React.useState(false);
+
+  function handleSavedSwitch() {
+    setSavedSwitch((state) => !state);
+  }
 
   return (
     <div>
@@ -101,12 +116,41 @@ export default function DrawerContent(props) {
       </div>
       <br />
       <hr />
-      <h5>Location:</h5>
-      <Search
-        searching={searching}
-        location={location}
-        getLocation={getLocation}
-      />
+      {/* <Button
+        onClick={handleSavedSwitch}
+        rightIcon={<Icon icon="chevron-right" />}
+        minimal
+        intent="success"
+      >
+        Saved
+      </Button> */}
+
+      {!savedSwitch && (
+        <>
+          <h5>Location:</h5>
+          <Search
+            searching={searching}
+            location={location}
+            getLocation={getLocation}
+            disabled={geolocator}
+          />
+          <br />
+          <Switch
+            label="Use Current Location"
+            size="regular"
+            checked={geolocator === true ? true : null}
+            onChange={handleGeolocator}
+          />
+        </>
+      )}
+      {savedSwitch && (
+        <SavedLocations
+          location={location}
+          setLocation={setLocation}
+          setGeolocator={setGeolocator}
+          handleDrawer={handleDrawer}
+        />
+      )}
       <br />
       <hr />
       <h5>Units</h5>

@@ -16,11 +16,12 @@ export default function Footer(props) {
       <div>
         <div>
           <p>
-            Added maps! Admittedly, they're not the best... but they get the job
-            done. Also added menu links at the top, as well as added additional
-            functionality to the location search. You can now look for zip codes
-            AND a place by name - which allows for international searching. I'm
-            sure this will improve in the future.
+            0.1.1: Added maps! Admittedly, they're not the best... but they get
+            the job done. Also added menu links at the top, as well as added
+            additional functionality to the location search. You can now look
+            for zip codes AND a place by name - which allows for international
+            searching. I'm sure this will improve in the future. 0.1.2: Added
+            current location.
           </p>
           <br />
         </div>
@@ -35,7 +36,7 @@ export default function Footer(props) {
         </div>
         <small className="attribute">Powered by Open Weather API</small>
       </div>,
-      `What's new in v0.1.1?`,
+      `What's new in v0.1?`,
       "rocket"
     );
   }
@@ -75,7 +76,7 @@ export default function Footer(props) {
           style={{ color: theme === "light" ? "lightgray" : "dimgray" }}
           className="text-hidden"
         >
-          .1.1
+          .1.2
         </span>
       </div>
       <Tooltip selector="#version" content={tooltip.version} />
