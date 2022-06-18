@@ -648,7 +648,9 @@ export default function App() {
 
   React.useEffect(() => {
     if (geolocator === true) {
-      handleDrawer();
+      if (drawer.isOpen === true) {
+        handleDrawer();
+      }
       getGeoLocation();
     }
   }, [geolocator]);
